@@ -1,0 +1,2355 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduPlatform — Учись с удовольствием</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f1f5f9;
+            color: #0f172a;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        .header {
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(16px);
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(226,232,240,0.6);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 26px;
+            font-weight: 800;
+            color: #0f172a;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+        .logo span {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        .nav a {
+            color: #475569;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.3s;
+            position: relative;
+        }
+        .nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            transition: 0.3s;
+        }
+        .nav a:hover {
+            color: #0f172a;
+        }
+        .nav a:hover::after {
+            width: 100%;
+        }
+        .nav .btn-outline {
+            border: 1px solid #3b82f6;
+            padding: 8px 20px;
+            border-radius: 8px;
+            color: #3b82f6;
+            font-weight: 600;
+            transition: 0.3s;
+            background: transparent;
+            cursor: pointer;
+        }
+        .nav .btn-outline:hover {
+            background: #3b82f6;
+            color: #fff;
+        }
+        .nav .btn-outline::after {
+            display: none;
+        }
+        .nav .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #0f172a;
+        }
+        .nav .user-badge .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .nav .user-badge .logout {
+            color: #ef4444;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 13px;
+            transition: 0.3s;
+        }
+        .nav .user-badge .logout:hover {
+            color: #dc2626;
+        }
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #0f172a;
+            cursor: pointer;
+        }
+
+        .hero {
+            padding: 60px 0 40px;
+            text-align: center;
+            background: linear-gradient(180deg, #eff6ff 0%, #f8fafc 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+        .hero h1 span {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 18px;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto 24px;
+            position: relative;
+            z-index: 1;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            border: none;
+            padding: 12px 32px;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 16px rgba(59,130,246,0.25);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(59,130,246,0.35);
+        }
+        .btn-secondary {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            padding: 12px 32px;
+            border-radius: 10px;
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-secondary:hover {
+            border-color: #3b82f6;
+            color: #3b82f6;
+            transform: translateY(-2px);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            padding: 30px 0;
+            max-width: 900px;
+            margin: 0 auto;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat .number {
+            font-size: 34px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+        .stat .label {
+            font-size: 14px;
+            color: #64748b;
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        .about-section {
+            padding: 50px 0 40px;
+            background: #ffffff;
+        }
+        .about-section .section-title {
+            font-size: 30px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .about-section .section-title span {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .about-section .section-sub {
+            text-align: center;
+            color: #64748b;
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: center;
+        }
+        .about-text p {
+            color: #475569;
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+        .about-text .highlight {
+            color: #3b82f6;
+            font-weight: 600;
+        }
+        .about-values {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        .about-value {
+            background: #f8fafc;
+            padding: 16px 16px;
+            border-radius: 12px;
+            border: 1px solid #f1f5f9;
+            transition: 0.3s;
+        }
+        .about-value:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+        }
+        .about-value .icon {
+            font-size: 26px;
+            margin-bottom: 4px;
+        }
+        .about-value h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .about-value p {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .courses {
+            padding: 40px 0 50px;
+        }
+        .courses-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .courses-header h2 {
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .courses-header h2 span {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            align-items: center;
+            margin-bottom: 24px;
+            padding: 14px 20px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+        }
+        .toolbar .search-wrap {
+            flex: 1;
+            min-width: 180px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f1f5f9;
+            border-radius: 10px;
+            padding: 0 14px;
+            transition: 0.3s;
+        }
+        .toolbar .search-wrap:focus-within {
+            background: #ffffff;
+            box-shadow: 0 0 0 2px #3b82f6;
+        }
+        .toolbar .search-wrap i {
+            color: #94a3b8;
+        }
+        .toolbar .search-wrap input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 10px 0;
+            font-size: 14px;
+            outline: none;
+            color: #0f172a;
+        }
+        .toolbar .filter-btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .toolbar .filter-btns button {
+            padding: 5px 14px;
+            background: transparent;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #64748b;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+        .toolbar .filter-btns button:hover,
+        .toolbar .filter-btns button.active {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            border-color: #3b82f6;
+            color: #fff;
+        }
+        .toolbar .sort-select {
+            padding: 6px 14px;
+            background: #f1f5f9;
+            border: none;
+            border-radius: 10px;
+            font-size: 13px;
+            color: #0f172a;
+            cursor: pointer;
+            outline: none;
+            font-weight: 500;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .course-card {
+            background: #ffffff;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            transition: 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            cursor: pointer;
+            position: relative;
+            border: 1px solid rgba(226,232,240,0.4);
+        }
+        .course-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+            border-color: rgba(59,130,246,0.15);
+        }
+        .course-card .favorite {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(4px);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            color: #94a3b8;
+            z-index: 2;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .course-card .favorite.active {
+            color: #ef4444;
+        }
+        .course-card .img {
+            height: 100px;
+            background: linear-gradient(135deg, #dbeafe, #eff6ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            border-bottom: 1px solid #f1f5f9;
+            position: relative;
+        }
+        .course-card .img .badge {
+            position: absolute;
+            top: 10px;
+            left: 12px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .course-card .body {
+            padding: 14px 16px 16px;
+        }
+        .course-card .body h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 2px;
+            line-height: 1.3;
+        }
+        .course-card .body .author {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+        .course-card .body .author i {
+            margin-right: 4px;
+            color: #3b82f6;
+        }
+        .course-card .body .meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 11px;
+            color: #64748b;
+            margin-bottom: 10px;
+        }
+        .course-card .body .rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: #f59e0b;
+            margin-bottom: 8px;
+        }
+        .course-card .body .rating .count {
+            color: #94a3b8;
+            font-size: 11px;
+        }
+        .course-card .body .progress {
+            width: 100%;
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        .course-card .body .progress .bar {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border-radius: 4px;
+            transition: width 0.6s ease;
+        }
+        .course-card .body .btn-start {
+            width: 100%;
+            padding: 8px;
+            background: transparent;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .course-card .body .btn-start:hover {
+            background: #f8fafc;
+            border-color: #3b82f6;
+            color: #3b82f6;
+        }
+        .course-card .body .btn-start.completed {
+            background: #10b981;
+            border-color: #10b981;
+            color: #fff;
+        }
+
+        .teachers-section {
+            padding: 50px 0 60px;
+            background: #f8fafc;
+        }
+        .teachers-section .section-title {
+            font-size: 30px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .teachers-section .section-title span {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .teachers-section .section-sub {
+            text-align: center;
+            color: #64748b;
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        .teachers-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .teacher-card {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 24px 20px 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            border: 1px solid #f1f5f9;
+            transition: 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .teacher-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+            border-color: rgba(59,130,246,0.15);
+        }
+        .teacher-card .avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #dbeafe, #eff6ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 10px;
+            border: 3px solid #ffffff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .teacher-card h3 {
+            font-size: 17px;
+            font-weight: 700;
+        }
+        .teacher-card .specialty {
+            color: #3b82f6;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        .teacher-card .exp {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 6px;
+        }
+        .teacher-card .teacher-rating {
+            color: #f59e0b;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+        .teacher-card .teacher-badge {
+            display: inline-block;
+            background: #eff6ff;
+            color: #3b82f6;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 3px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .dashboard-section {
+            padding: 40px 0 50px;
+            background: #ffffff;
+        }
+        .dashboard-section .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .dashboard-section .section-title span {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .dashboard-section .section-sub {
+            color: #64748b;
+            font-size: 15px;
+            margin-bottom: 24px;
+        }
+        .dashboard-grid {
+            display: grid;
+            gap: 24px;
+        }
+        .dashboard-card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px 24px;
+            border: 1px solid #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            transition: 0.3s;
+        }
+        .dashboard-card:hover {
+            border-color: #3b82f6;
+            background: #f1f5f9;
+        }
+        .dashboard-card .info .name {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .dashboard-card .info .desc {
+            font-size: 13px;
+            color: #64748b;
+        }
+        .dashboard-card .info .students {
+            font-size: 13px;
+            color: #3b82f6;
+            font-weight: 500;
+        }
+        .dashboard-card .btn-dash {
+            padding: 6px 18px;
+            background: #3b82f6;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: 500;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .dashboard-card .btn-dash:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+        .dashboard-card .btn-dash.outline {
+            background: transparent;
+            border: 1px solid #3b82f6;
+            color: #3b82f6;
+        }
+        .dashboard-card .btn-dash.outline:hover {
+            background: #3b82f6;
+            color: #fff;
+        }
+
+        .auth-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15,23,42,0.6);
+            backdrop-filter: blur(12px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+        .auth-overlay.active {
+            display: flex;
+        }
+        .auth-modal {
+            background: #ffffff;
+            border-radius: 20px;
+            max-width: 440px;
+            width: 100%;
+            padding: 36px 32px;
+            position: relative;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.2);
+            transform: scale(0.95) translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .auth-overlay.active .auth-modal {
+            transform: scale(1) translateY(0);
+        }
+        .auth-modal .close-btn {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .auth-modal .close-btn:hover {
+            color: #0f172a;
+            transform: rotate(90deg);
+        }
+        .auth-modal h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .auth-modal .sub {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .auth-modal .form-group {
+            margin-bottom: 14px;
+        }
+        .auth-modal .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: #475569;
+            margin-bottom: 4px;
+        }
+        .auth-modal .form-group input,
+        .auth-modal .form-group select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: 0.3s;
+        }
+        .auth-modal .form-group input:focus,
+        .auth-modal .form-group select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+        }
+        .auth-modal .btn-auth {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .auth-modal .btn-auth:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(59,130,246,0.25);
+        }
+        .auth-modal .switch-auth {
+            text-align: center;
+            margin-top: 14px;
+            font-size: 14px;
+            color: #64748b;
+        }
+        .auth-modal .switch-auth span {
+            color: #3b82f6;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .auth-modal .switch-auth span:hover {
+            text-decoration: underline;
+        }
+        .auth-modal .error {
+            color: #ef4444;
+            font-size: 13px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .footer {
+            padding: 30px 0;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 13px;
+            background: #ffffff;
+        }
+        .footer a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        .scroll-fade {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .scroll-fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== МОДАЛКА КУРСА ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15,23,42,0.6);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal {
+            background: #ffffff;
+            border-radius: 20px;
+            max-width: 820px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 32px 36px;
+            position: relative;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.2);
+            transform: scale(0.95) translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .modal-overlay.active .modal {
+            transform: scale(1) translateY(0);
+        }
+        .modal .close-btn {
+            position: sticky;
+            top: 0;
+            float: right;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 2;
+        }
+        .modal .close-btn:hover {
+            color: #0f172a;
+            transform: rotate(90deg);
+        }
+        .modal .modal-top {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 10px;
+        }
+        .modal .modal-icon {
+            font-size: 40px;
+            background: #eff6ff;
+            width: 60px;
+            height: 60px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .modal .modal-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+        .modal .modal-author {
+            color: #64748b;
+            font-size: 13px;
+        }
+        .modal .modal-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 14px;
+        }
+        .modal .modal-meta i {
+            margin-right: 4px;
+            color: #3b82f6;
+        }
+        .modal .modal-desc {
+            color: #475569;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .modal-tabs {
+            display: flex;
+            gap: 8px;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .modal-tabs button {
+            padding: 8px 20px;
+            background: none;
+            border: none;
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+            transition: 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .modal-tabs button:hover {
+            color: #0f172a;
+        }
+        .modal-tabs button.active {
+            color: #3b82f6;
+            border-bottom-color: #3b82f6;
+        }
+
+        .modal-tab-content {
+            display: none;
+        }
+        .modal-tab-content.active {
+            display: block;
+        }
+
+        .modal-lessons .lesson {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.2s;
+            border-radius: 6px;
+        }
+        .modal-lessons .lesson:hover {
+            background: #f8fafc;
+        }
+        .modal-lessons .lesson .status {
+            font-size: 14px;
+            width: 20px;
+            text-align: center;
+        }
+        .modal-lessons .lesson .status.done {
+            color: #10b981;
+        }
+        .modal-lessons .lesson .status.pending {
+            color: #94a3b8;
+        }
+        .modal-lessons .lesson .name {
+            flex: 1;
+            font-weight: 500;
+        }
+        .modal-lessons .lesson .duration {
+            color: #94a3b8;
+            font-size: 11px;
+        }
+
+        .modal-video .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            background: #0f172a;
+        }
+        .modal-video .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .modal-video .video-title {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+        .modal-video .video-desc {
+            font-size: 13px;
+            color: #64748b;
+        }
+        .modal-video .video-select {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .modal-video .video-select button {
+            padding: 6px 16px;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            color: #475569;
+        }
+        .modal-video .video-select button:hover,
+        .modal-video .video-select button.active {
+            background: #3b82f6;
+            border-color: #3b82f6;
+            color: #fff;
+        }
+
+        .modal-reviews {
+            margin-top: 16px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 14px;
+        }
+        .modal-reviews h4 {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+        .modal-reviews .review-item {
+            padding: 6px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .modal-reviews .review-item .review-author {
+            font-weight: 600;
+            font-size: 13px;
+        }
+        .modal-reviews .review-item .review-text {
+            font-size: 13px;
+            color: #475569;
+        }
+        .modal-reviews .review-item .review-stars {
+            color: #f59e0b;
+            font-size: 12px;
+        }
+        .modal-reviews .review-form {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 10px;
+        }
+        .modal-reviews .review-form input,
+        .modal-reviews .review-form textarea {
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 13px;
+            font-family: inherit;
+            transition: 0.3s;
+        }
+        .modal-reviews .review-form input:focus,
+        .modal-reviews .review-form textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+        }
+        .modal-reviews .review-form .review-stars-select {
+            display: flex;
+            gap: 4px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .modal-reviews .review-form .review-stars-select .star {
+            color: #d1d5db;
+            transition: 0.2s;
+        }
+        .modal-reviews .review-form .review-stars-select .star.active {
+            color: #f59e0b;
+        }
+        .modal-reviews .review-form .btn-submit-review {
+            padding: 8px;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 13px;
+        }
+        .modal-reviews .review-form .btn-submit-review:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(59,130,246,0.25);
+        }
+
+        .modal-certificate {
+            text-align: center;
+            padding: 20px 0;
+        }
+        .modal-certificate .cert-icon {
+            font-size: 64px;
+            margin-bottom: 12px;
+        }
+        .modal-certificate h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .modal-certificate p {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+        .modal-certificate .btn-cert {
+            padding: 10px 32px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+        .modal-certificate .btn-cert:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(16,185,129,0.3);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+        .modal-actions .btn-primary {
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            padding: 10px 20px;
+            font-size: 13px;
+        }
+        .modal-actions .btn-secondary {
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            padding: 10px 20px;
+            font-size: 13px;
+            background: #f8fafc;
+        }
+
+        @media (max-width: 992px) {
+            .courses-grid { grid-template-columns: repeat(2, 1fr); }
+            .teachers-grid { grid-template-columns: repeat(2, 1fr); }
+            .about-grid { grid-template-columns: 1fr; }
+            .about-values { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            .nav { display: none; }
+            .mobile-toggle { display: block; }
+            .hero h1 { font-size: 32px; }
+            .stats { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+            .courses-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+            .teachers-grid { grid-template-columns: 1fr; max-width: 340px; margin: 0 auto; }
+            .about-values { grid-template-columns: 1fr; }
+            .modal { padding: 20px 16px; margin: 10px; }
+            .modal .modal-top { flex-direction: column; text-align: center; }
+            .toolbar { flex-direction: column; align-items: stretch; }
+            .toolbar .search-wrap { min-width: auto; }
+            .toolbar .filter-btns { justify-content: center; }
+            .toolbar .sort-select { width: 100%; }
+            .dashboard-card { flex-direction: column; text-align: center; }
+            .modal-tabs button { font-size: 12px; padding: 6px 12px; }
+        }
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 26px; }
+            .container { padding: 0 16px; }
+            .stat .number { font-size: 24px; }
+            .modal-actions { flex-direction: column; }
+            .modal-actions .btn-primary,
+            .modal-actions .btn-secondary { min-width: auto; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="container">
+        <div class="header-inner">
+            <a href="#" class="logo">Edu<span>Platform</span></a>
+            <nav class="nav" id="mainNav">
+                <a href="#about">О нас</a>
+                <a href="#courses">Курсы</a>
+                <a href="#teachers">Преподаватели</a>
+                <div id="authButtons">
+                    <button class="btn-outline" id="loginBtn">Войти</button>
+                </div>
+                <div id="userBadge" style="display:none;" class="user-badge">
+                    <div class="avatar" id="userAvatar">А</div>
+                    <span id="userName">Алексей</span>
+                    <span class="logout" id="logoutBtn">Выйти</span>
+                </div>
+            </nav>
+            <button class="mobile-toggle" id="mobileToggle"><i class="fas fa-bars"></i></button>
+        </div>
+    </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+    <div class="container">
+        <h1>Учись тому, что <span>действительно важно</span></h1>
+        <p>Практические курсы от экспертов. Полный набор навыков для карьерного роста.</p>
+        <div class="actions">
+            <button class="btn-primary" id="scrollToCourses">Начать обучение →</button>
+            <button class="btn-secondary" id="scrollToAbout">О нас</button>
+        </div>
+    </div>
+</section>
+
+<!-- ===== СТАТИСТИКА ===== -->
+<section class="stats">
+    <div class="stat">
+        <div class="number" id="statCourses">15+</div>
+        <div class="label">Курсов</div>
+    </div>
+    <div class="stat">
+        <div class="number" id="statStudents">1 200+</div>
+        <div class="label">Студентов</div>
+    </div>
+    <div class="stat">
+        <div class="number">98%</div>
+        <div class="label">Довольных</div>
+    </div>
+    <div class="stat">
+        <div class="number">24/7</div>
+        <div class="label">Поддержка</div>
+    </div>
+</section>
+
+<!-- ===== О НАС ===== -->
+<section class="about-section scroll-fade" id="about">
+    <div class="container">
+        <div class="section-title">О <span>нас</span></div>
+        <div class="section-sub">Мы создаём образование, которое меняет жизни</div>
+        <div class="about-grid">
+            <div class="about-text">
+                <p><span class="highlight">EduPlatform</span> — это образовательная платформа, созданная командой экспертов с многолетним опытом в IT, дизайне, аналитике и маркетинге.</p>
+                <p>Мы верим, что качественное образование должно быть доступным, практичным и вдохновляющим. Наши курсы построены на реальных кейсах — ты учишься на том, что действительно пригодится в работе.</p>
+                <p>Каждый курс создаётся с любовью к деталям: продуманная структура, живые примеры, поддержка наставников и сообщество единомышленников.</p>
+            </div>
+            <div class="about-values">
+                <div class="about-value">
+                    <div class="icon">🎯</div>
+                    <h4>Практика</h4>
+                    <p>80% времени — реальные проекты</p>
+                </div>
+                <div class="about-value">
+                    <div class="icon">🧠</div>
+                    <h4>Эксперты</h4>
+                    <p>Преподаватели из топ-компаний</p>
+                </div>
+                <div class="about-value">
+                    <div class="icon">🤝</div>
+                    <h4>Сообщество</h4>
+                    <p>Ты не один — мы всегда рядом</p>
+                </div>
+                <div class="about-value">
+                    <div class="icon">🚀</div>
+                    <h4>Карьера</h4>
+                    <p>Помогаем с трудоустройством</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== КУРСЫ ===== -->
+<section class="courses scroll-fade" id="courses">
+    <div class="container">
+        <div class="courses-header">
+            <h2>Популярные <span>курсы</span></h2>
+            <span style="color:#64748b;font-size:13px;font-weight:500;">Нажмите на карточку, чтобы открыть</span>
+        </div>
+        <div class="toolbar">
+            <div class="search-wrap">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Поиск курсов...">
+            </div>
+            <div class="filter-btns" id="filterBtns">
+                <button class="active" data-filter="all">Все</button>
+                <button data-filter="web">Веб</button>
+                <button data-filter="design">Дизайн</button>
+                <button data-filter="analytics">Аналитика</button>
+                <button data-filter="marketing">Маркетинг</button>
+            </div>
+            <select class="sort-select" id="sortSelect">
+                <option value="popular">По популярности</option>
+                <option value="duration">По длительности</option>
+                <option value="alphabet">По алфавиту</option>
+            </select>
+        </div>
+        <div class="courses-grid" id="coursesGrid"></div>
+    </div>
+</section>
+
+<!-- ===== ЛИЧНЫЙ КАБИНЕТ ===== -->
+<section class="dashboard-section scroll-fade" id="dashboard">
+    <div class="container">
+        <div class="section-title">Мои <span>курсы</span></div>
+        <div class="section-sub" id="dashboardSub">Здесь отображаются курсы, на которые вы записались</div>
+        <div class="dashboard-grid" id="dashboardGrid">
+            <div style="text-align:center;padding:30px 0;color:#94a3b8;grid-column:1/-1;">
+                <i class="fas fa-graduation-cap" style="font-size:40px;display:block;margin-bottom:12px;color:#e2e8f0;"></i>
+                Запишитесь на курсы, чтобы они появились здесь
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== ПРЕПОДАВАТЕЛИ ===== -->
+<section class="teachers-section scroll-fade" id="teachers">
+    <div class="container">
+        <div class="section-title">Наши <span>преподаватели</span></div>
+        <div class="section-sub">Опытные наставники, которые знают, как передать знания</div>
+        <div class="teachers-grid">
+            <div class="teacher-card">
+                <div class="avatar">💻</div>
+                <h3>Алексей Иванов</h3>
+                <div class="specialty">Веб-разработка</div>
+                <div class="exp">8 лет опыта · ex-Senior Яндекс</div>
+                <div class="teacher-rating">★★★★★ 4.9</div>
+                <span class="teacher-badge">Топ-преподаватель</span>
+            </div>
+            <div class="teacher-card">
+                <div class="avatar">🎨</div>
+                <h3>Мария Смирнова</h3>
+                <div class="specialty">UI/UX дизайн</div>
+                <div class="exp">6 лет опыта · ex-Art Director Тинькофф</div>
+                <div class="teacher-rating">★★★★★ 4.8</div>
+                <span class="teacher-badge">Топ-преподаватель</span>
+            </div>
+            <div class="teacher-card">
+                <div class="avatar">🐍</div>
+                <h3>Дмитрий Петров</h3>
+                <div class="specialty">Аналитика данных</div>
+                <div class="exp">7 лет опыта · ex-Data Scientist Сбер</div>
+                <div class="teacher-rating">★★★★★ 4.7</div>
+                <span class="teacher-badge">Эксперт</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+    <div class="container">
+        <p>EduPlatform — образование будущего. © 2026 | <a href="#">Политика конфиденциальности</a></p>
+    </div>
+</footer>
+
+<!-- ===== МОДАЛКА АВТОРИЗАЦИИ ===== -->
+<div class="auth-overlay" id="authOverlay">
+    <div class="auth-modal">
+        <button class="close-btn" id="authCloseBtn"><i class="fas fa-times"></i></button>
+        <h2 id="authTitle">Вход</h2>
+        <div class="sub" id="authSub">Войдите в свой аккаунт</div>
+        <form id="authForm">
+            <div class="form-group">
+                <label>Имя пользователя</label>
+                <input type="text" id="authUsername" placeholder="Введите имя">
+            </div>
+            <div class="form-group">
+                <label>Пароль</label>
+                <input type="password" id="authPassword" placeholder="Введите пароль">
+            </div>
+            <div class="form-group" id="roleGroup" style="display:none;">
+                <label>Роль</label>
+                <select id="authRole">
+                    <option value="student">Ученик</option>
+                    <option value="teacher">Учитель</option>
+                </select>
+            </div>
+            <div class="error" id="authError"></div>
+            <button type="submit" class="btn-auth" id="authSubmitBtn">Войти</button>
+        </form>
+        <div class="switch-auth" id="switchAuth">
+            Нет аккаунта? <span id="switchBtn">Зарегистрироваться</span>
+        </div>
+    </div>
+</div>
+
+<!-- ===== МОДАЛКА КУРСА ===== -->
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modalContent">
+        <button class="close-btn" id="modalCloseBtn"><i class="fas fa-times"></i></button>
+        <div class="modal-top">
+            <div class="modal-icon" id="modalIcon">💻</div>
+            <div>
+                <h2 class="modal-title" id="modalTitle">Веб-разработка с нуля</h2>
+                <div class="modal-author" id="modalAuthor">Алексей Иванов</div>
+            </div>
+        </div>
+        <div class="modal-meta" id="modalMeta">
+            <span><i class="fas fa-clock"></i> 12 недель</span>
+            <span><i class="fas fa-users"></i> <span id="modalStudents">340</span> студентов</span>
+            <span><i class="fas fa-star" style="color:#f59e0b;"></i> <span id="modalRating">4.8</span></span>
+        </div>
+        <p class="modal-desc" id="modalDesc">Полный курс по веб-разработке: HTML, CSS, JavaScript, React. Создай свой первый сайт уже через месяц.</p>
+
+        <div class="modal-tabs">
+            <button class="active" data-tab="lessons">📚 Уроки</button>
+            <button data-tab="video">🎬 Видео</button>
+            <button data-tab="reviews">💬 Отзывы</button>
+            <button data-tab="certificate">🎓 Сертификат</button>
+        </div>
+
+        <div class="modal-tab-content active" id="tabLessons">
+            <div class="modal-lessons" id="modalLessonsList"></div>
+        </div>
+
+        <div class="modal-tab-content" id="tabVideo">
+            <div class="modal-video">
+                <div class="video-select" id="videoSelect"></div>
+                <div class="video-wrapper">
+                    <iframe id="videoPlayer" src="https://www.youtube.com/embed/dQw4w9WgXcQ" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
+                <div class="video-title" id="videoTitle">Введение в HTML</div>
+                <div class="video-desc" id="videoDesc">Первый урок курса. Изучаем структуру HTML-документа.</div>
+            </div>
+        </div>
+
+        <div class="modal-tab-content" id="tabReviews">
+            <div class="modal-reviews">
+                <div id="modalReviewsList"></div>
+                <div class="review-form">
+                    <input type="text" id="reviewName" placeholder="Ваше имя">
+                    <div class="review-stars-select" id="reviewStars">
+                        <span class="star" data-value="1">☆</span>
+                        <span class="star" data-value="2">☆</span>
+                        <span class="star" data-value="3">☆</span>
+                        <span class="star" data-value="4">☆</span>
+                        <span class="star" data-value="5">☆</span>
+                    </div>
+                    <textarea id="reviewText" placeholder="Ваш отзыв" rows="2"></textarea>
+                    <button class="btn-submit-review" id="submitReview">Оставить отзыв</button>
+                    <div id="reviewStatus" style="font-size:12px;color:#64748b;margin-top:4px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-tab-content" id="tabCertificate">
+            <div class="modal-certificate" id="certificateContent">
+                <div class="cert-icon">🎓</div>
+                <h3>Сертификат об окончании курса</h3>
+                <p>Пройдите курс полностью, чтобы получить сертификат.</p>
+                <button class="btn-cert" id="certificateBtn" style="display:none;">📥 Скачать сертификат</button>
+                <div id="certStatus" style="font-size:13px;color:#64748b;margin-top:8px;"></div>
+            </div>
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn-primary" id="modalContinueBtn">Начать курс →</button>
+            <button class="btn-secondary" id="modalEnrollBtn">📚 Записаться</button>
+            <button class="btn-secondary" id="modalCloseBtn2">Закрыть</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ===== ДАННЫЕ КУРСОВ С ВИДЕО =====
+    const coursesData = [
+        { id: 1, title: 'Веб-разработка с нуля', author: 'Алексей Иванов', duration: '12 недель', students: 340, icon: '💻', category: 'web', rating: 4.9, desc: 'Полный курс по веб-разработке: HTML, CSS, JavaScript, React. Создай свой первый сайт уже через месяц.', lessons: [
+            { name: 'Введение в HTML', duration: '12 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Структура HTML-документа, основные теги.' },
+            { name: 'Основы CSS', duration: '18 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Стилизация, селекторы, цвета, шрифты.' },
+            { name: 'Flexbox и Grid', duration: '22 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Современные методы вёрстки.' },
+            { name: 'JavaScript: основы', duration: '25 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Переменные, функции, условия, циклы.' },
+            { name: 'DOM и события', duration: '20 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Работа с элементами страницы.' },
+            { name: 'React: первый компонент', duration: '30 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Создаём первый React-компонент.' }
+        ] },
+        { id: 2, title: 'UI/UX дизайн для начинающих', author: 'Мария Смирнова', duration: '8 недель', students: 280, icon: '🎨', category: 'design', rating: 4.8, desc: 'Изучи основы дизайна интерфейсов и пользовательского опыта. Создавай красивые и удобные продукты.', lessons: [
+            { name: 'Введение в UI/UX', duration: '10 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Основы пользовательского опыта.' },
+            { name: 'Цвет и типографика', duration: '15 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Выбор цветовой палитры и шрифтов.' },
+            { name: 'Прототипирование в Figma', duration: '20 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Создаём первый прототип.' },
+            { name: 'Исследование пользователей', duration: '18 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Как понять потребности пользователей.' },
+            { name: 'Создание дизайн-системы', duration: '22 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Компоненты, переменные, гайдлайны.' }
+        ] },
+        { id: 3, title: 'Python для анализа данных', author: 'Дмитрий Петров', duration: '10 недель', students: 210, icon: '🐍', category: 'analytics', rating: 4.7, desc: 'Научись обрабатывать данные, строить графики и создавать модели машинного обучения на Python.', lessons: [
+            { name: 'Основы Python', duration: '15 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Синтаксис, переменные, типы данных.' },
+            { name: 'Pandas для данных', duration: '20 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Загрузка и анализ данных.' },
+            { name: 'Визуализация с Matplotlib', duration: '18 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Строим графики и диаграммы.' },
+            { name: 'NumPy и массивы', duration: '14 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Численные вычисления.' },
+            { name: 'Линейная регрессия', duration: '25 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Первая модель машинного обучения.' }
+        ] },
+        { id: 4, title: 'Маркетинг в соцсетях', author: 'Екатерина Соколова', duration: '6 недель', students: 190, icon: '📱', category: 'marketing', rating: 4.6, desc: 'Освой современные инструменты SMM: контент-план, таргетинг, аналитика, работа с блогерами.', lessons: [
+            { name: 'Стратегия SMM', duration: '12 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Планирование и цели.' },
+            { name: 'Создание контента', duration: '16 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Виды контента, визуал, тексты.' },
+            { name: 'Таргетинг в Instagram', duration: '20 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Настройка и запуск рекламы.' },
+            { name: 'Аналитика и отчёты', duration: '14 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Как измерять результаты.' },
+            { name: 'Работа с блогерами', duration: '18 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Поиск и коммуникация с инфлюенсерами.' }
+        ] },
+        { id: 5, title: 'Английский для IT', author: 'Ольга Новикова', duration: '8 недель', students: 160, icon: '🇬🇧', category: 'web', rating: 4.9, desc: 'Подтяни технический английский: читай документацию, смотри видео, общайся с коллегами на международных проектах.', lessons: [
+            { name: 'Основы технического английского', duration: '10 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Базовая лексика.' },
+            { name: 'Чтение документации', duration: '14 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Разбор технических текстов.' },
+            { name: 'Переговоры на английском', duration: '18 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Деловая коммуникация.' },
+            { name: 'Технические термины', duration: '12 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Ключевые IT-термины.' },
+            { name: 'Практика общения', duration: '16 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Реальные диалоги.' }
+        ] },
+        { id: 6, title: 'Управление проектами', author: 'Сергей Кузнецов', duration: '10 недель', students: 140, icon: '📊', category: 'analytics', rating: 4.8, desc: 'Научись управлять IT-проектами: Agile, Scrum, Kanban, планирование, команда, риски.', lessons: [
+            { name: 'Введение в Agile', duration: '10 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Манифест и ценности.' },
+            { name: 'Scrum: роли и события', duration: '16 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Роли, спринты, ежедневные встречи.' },
+            { name: 'Планирование спринтов', duration: '18 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Как планировать и оценивать задачи.' },
+            { name: 'Управление рисками', duration: '14 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Идентификация и работа с рисками.' },
+            { name: 'Работа с командой', duration: '16 мин', done: false, video: 'dQw4w9WgXcQ', desc: 'Мотивация, фасилитация, обратная связь.' }
+        ] }
+    ];
+
+    // ===== ПОЛЬЗОВАТЕЛИ =====
+    let users = [];
+    let currentUser = null;
+    let progressData = {};
+    let favoritesData = {};
+    let reviewsData = {};
+    let currentFilter = 'all';
+    let currentSort = 'popular';
+    let currentCourseId = null;
+    let selectedReviewStar = 0;
+    let totalStudents = 1200;
+    let isLoginMode = true;
+    let currentVideoIndex = 0;
+
+    // ===== ЗАГРУЗКА ДАННЫХ =====
+    function loadData() {
+        try {
+            const savedUsers = localStorage.getItem('edu_users');
+            if (savedUsers) users = JSON.parse(savedUsers);
+            else {
+                users = [
+                    { username: 'student', password: '123', role: 'student', name: 'Алексей Студент' },
+                    { username: 'teacher', password: '123', role: 'teacher', name: 'Мария Учитель' }
+                ];
+                localStorage.setItem('edu_users', JSON.stringify(users));
+            }
+        } catch (e) { users = []; }
+
+        try {
+            const savedProgress = localStorage.getItem('edu_progress');
+            if (savedProgress) progressData = JSON.parse(savedProgress);
+        } catch (e) {}
+        try {
+            const savedFavorites = localStorage.getItem('edu_favorites');
+            if (savedFavorites) favoritesData = JSON.parse(savedFavorites);
+        } catch (e) {}
+        try {
+            const savedReviews = localStorage.getItem('edu_reviews');
+            if (savedReviews) reviewsData = JSON.parse(savedReviews);
+        } catch (e) {}
+        try {
+            const savedStudents = localStorage.getItem('edu_students');
+            if (savedStudents) totalStudents = parseInt(savedStudents) || 1200;
+        } catch (e) {}
+
+        try {
+            const session = localStorage.getItem('edu_session');
+            if (session) {
+                const parsed = JSON.parse(session);
+                const user = users.find(u => u.username === parsed.username);
+                if (user && user.password === parsed.password) {
+                    currentUser = user;
+                }
+            }
+        } catch (e) {}
+    }
+
+    function saveData() {
+        localStorage.setItem('edu_users', JSON.stringify(users));
+        localStorage.setItem('edu_progress', JSON.stringify(progressData));
+        localStorage.setItem('edu_favorites', JSON.stringify(favoritesData));
+        localStorage.setItem('edu_reviews', JSON.stringify(reviewsData));
+        localStorage.setItem('edu_students', String(totalStudents));
+        if (currentUser) {
+            localStorage.setItem('edu_session', JSON.stringify({ username: currentUser.username, password: currentUser.password }));
+        } else {
+            localStorage.removeItem('edu_session');
+        }
+    }
+
+    // ===== ПОЛЬЗОВАТЕЛИ =====
+    function registerUser(username, password, role, name) {
+        if (users.find(u => u.username === username)) {
+            return { success: false, error: 'Пользователь с таким именем уже существует' };
+        }
+        users.push({ username, password, role, name });
+        saveData();
+        return { success: true };
+    }
+
+    function loginUser(username, password) {
+        const user = users.find(u => u.username === username && u.password === password);
+        if (!user) return { success: false, error: 'Неверное имя пользователя или пароль' };
+        currentUser = user;
+        saveData();
+        return { success: true };
+    }
+
+    function logoutUser() {
+        currentUser = null;
+        localStorage.removeItem('edu_session');
+        updateUI();
+        renderCourses();
+        renderDashboard();
+    }
+
+    // ===== ПРОГРЕСС =====
+    function getCourseProgress(courseId) {
+        if (progressData[courseId] !== undefined) return progressData[courseId];
+        const course = coursesData.find(c => c.id === courseId);
+        if (!course) return 0;
+        const done = course.lessons.filter(l => l.done).length;
+        return Math.round((done / course.lessons.length) * 100);
+    }
+
+    function setCourseProgress(courseId, progress) {
+        progressData[courseId] = Math.min(100, Math.max(0, progress));
+        saveData();
+    }
+
+    function markLessonDone(courseId, lessonIndex, done) {
+        const course = coursesData.find(c => c.id === courseId);
+        if (!course) return;
+        course.lessons[lessonIndex].done = done;
+        const newProgress = Math.round((course.lessons.filter(l => l.done).length / course.lessons.length) * 100);
+        setCourseProgress(courseId, newProgress);
+        saveData();
+    }
+
+    function toggleFavorite(courseId) {
+        favoritesData[courseId] = !favoritesData[courseId];
+        saveData();
+        renderCourses();
+    }
+
+    function isFavorite(courseId) { return !!favoritesData[courseId]; }
+
+    function getCourseReviews(courseId) { return reviewsData[courseId] || []; }
+
+    function addReview(courseId, name, rating, text) {
+        if (!reviewsData[courseId]) reviewsData[courseId] = [];
+        reviewsData[courseId].push({ name, rating, text, date: new Date().toLocaleDateString() });
+        saveData();
+    }
+
+    function getCourseRating(courseId) {
+        const reviews = getCourseReviews(courseId);
+        if (reviews.length === 0) return coursesData.find(c => c.id === courseId)?.rating || 0;
+        const sum = reviews.reduce((acc, r) => acc + r.rating, 0);
+        return Math.round((sum / reviews.length) * 10) / 10;
+    }
+
+    // ===== UI =====
+    function updateUI() {
+        const authBtns = document.getElementById('authButtons');
+        const userBadge = document.getElementById('userBadge');
+        const dashboard = document.getElementById('dashboard');
+
+        if (currentUser) {
+            authBtns.style.display = 'none';
+            userBadge.style.display = 'flex';
+            document.getElementById('userAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
+            document.getElementById('userName').textContent = currentUser.name;
+            dashboard.style.display = 'block';
+            renderDashboard();
+        } else {
+            authBtns.style.display = 'block';
+            userBadge.style.display = 'none';
+            dashboard.style.display = 'none';
+        }
+    }
+
+    // ===== DASHBOARD =====
+    function renderDashboard() {
+        const grid = document.getElementById('dashboardGrid');
+        if (!currentUser) return;
+
+        if (currentUser.role === 'student') {
+            const myCourses = coursesData.filter(c => getCourseProgress(c.id) > 0);
+            document.getElementById('dashboardSub').textContent = 'Ваши курсы и прогресс обучения';
+
+            if (myCourses.length === 0) {
+                grid.innerHTML = `<div style="text-align:center;padding:30px 0;color:#94a3b8;grid-column:1/-1;"><i class="fas fa-graduation-cap" style="font-size:40px;display:block;margin-bottom:12px;color:#e2e8f0;"></i>Вы ещё не записались ни на один курс</div>`;
+                return;
+            }
+
+            grid.innerHTML = myCourses.map(c => {
+                const progress = getCourseProgress(c.id);
+                return `<div class="dashboard-card"><div class="info"><div class="name">${c.icon} ${c.title}</div><div class="desc">Прогресс: ${progress}%</div></div><div><button class="btn-dash" onclick="openModal(${c.id})">${progress === 100 ? '✅ Пройден' : 'Продолжить'}</button></div></div>`;
+            }).join('');
+
+        } else if (currentUser.role === 'teacher') {
+            document.getElementById('dashboardSub').textContent = 'Ваши курсы и статистика';
+            grid.innerHTML = coursesData.map(c => {
+                const studentCount = c.students || 0;
+                return `<div class="dashboard-card"><div class="info"><div class="name">${c.icon} ${c.title}</div><div class="students"><i class="fas fa-users"></i> ${studentCount} студентов</div></div><div><button class="btn-dash outline" onclick="openModal(${c.id})">Редактировать</button></div></div>`;
+            }).join('');
+        }
+    }
+
+    // ===== КУРСЫ =====
+    function renderCourses() {
+        const grid = document.getElementById('coursesGrid');
+        let filtered = coursesData.filter(c => {
+            if (currentFilter === 'all') return true;
+            return c.category === currentFilter;
+        });
+
+        const search = document.getElementById('searchInput').value.toLowerCase().trim();
+        if (search) {
+            filtered = filtered.filter(c => c.title.toLowerCase().includes(search) || c.author.toLowerCase().includes(search));
+        }
+
+        switch (currentSort) {
+            case 'popular': filtered.sort((a, b) => b.students - a.students); break;
+            case 'duration': filtered.sort((a, b) => parseInt(a.duration) - parseInt(b.duration)); break;
+            case 'alphabet': filtered.sort((a, b) => a.title.localeCompare(b.title)); break;
+        }
+
+        if (filtered.length === 0) {
+            grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:#64748b;padding:40px 0;font-size:15px;">Курсы не найдены</div>`;
+            return;
+        }
+
+        grid.innerHTML = filtered.map(c => {
+            const progress = getCourseProgress(c.id);
+            const fav = isFavorite(c.id);
+            const rating = getCourseRating(c.id);
+            const displayRating = rating || c.rating || 4.5;
+            const badge = progress === 100 ? 'Пройден' : progress > 0 ? 'В процессе' : 'Новый';
+            const badgeColor = progress === 100 ? '#10b981' : progress > 0 ? '#f59e0b' : '#3b82f6';
+            const reviews = getCourseReviews(c.id);
+            return `<div class="course-card" data-id="${c.id}"><button class="favorite ${fav ? 'active' : ''}" data-id="${c.id}"><i class="${fav ? 'fas' : 'far'} fa-heart"></i></button><div class="img"><span style="font-size:32px;">${c.icon}</span><span class="badge" style="background:${badgeColor}20;color:${badgeColor};">${badge}</span></div><div class="body"><h3>${c.title}</h3><div class="author"><i class="fas fa-user-graduate"></i> ${c.author}</div><div class="meta"><span><i class="fas fa-clock"></i> ${c.duration}</span><span><i class="fas fa-users"></i> ${c.students}</span></div><div class="rating">${'★'.repeat(Math.round(displayRating))}${'☆'.repeat(5 - Math.round(displayRating))}<span class="count">(${reviews.length + 1})</span></div><div class="progress"><div class="bar" style="width: ${progress}%;"></div></div><button class="btn-start ${progress === 100 ? 'completed' : ''}" data-id="${c.id}">${progress === 0 ? 'Начать' : progress === 100 ? '✅ Пройден' : 'Продолжить'}</button></div></div>`;
+        }).join('');
+
+        document.querySelectorAll('.course-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                if (e.target.closest('.btn-start') || e.target.closest('.favorite')) return;
+                const id = parseInt(card.dataset.id);
+                openModal(id);
+            });
+        });
+
+        document.querySelectorAll('.btn-start').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = parseInt(btn.dataset.id);
+                openModal(id);
+            });
+        });
+
+        document.querySelectorAll('.favorite').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = parseInt(btn.dataset.id);
+                toggleFavorite(id);
+            });
+        });
+
+        document.getElementById('statCourses').textContent = coursesData.length + '+';
+        document.getElementById('statStudents').textContent = totalStudents.toLocaleString() + '+';
+    }
+
+    // ===== МОДАЛКА КУРСА =====
+    function openModal(courseId) {
+        const course = coursesData.find(c => c.id === courseId);
+        if (!course) return;
+        currentCourseId = courseId;
+
+        document.getElementById('modalIcon').textContent = course.icon;
+        document.getElementById('modalTitle').textContent = course.title;
+        document.getElementById('modalAuthor').textContent = course.author;
+
+        const rating = getCourseRating(courseId) || course.rating || 4.5;
+        document.getElementById('modalStudents').textContent = course.students;
+        document.getElementById('modalRating').textContent = rating;
+
+        document.getElementById('modalMeta').innerHTML = `<span><i class="fas fa-clock"></i> ${course.duration}</span><span><i class="fas fa-users"></i> <span id="modalStudents">${course.students}</span> студентов</span><span><i class="fas fa-star" style="color:#f59e0b;"></i> <span id="modalRating">${rating}</span></span>`;
+        document.getElementById('modalDesc').textContent = course.desc;
+
+        // Уроки
+        const lessonsList = document.getElementById('modalLessonsList');
+        lessonsList.innerHTML = course.lessons.map((lesson, index) => {
+            const statusClass = lesson.done ? 'done' : 'pending';
+            const statusIcon = lesson.done ? '✅' : '⏳';
+            return `<div class="lesson" data-index="${index}"><span class="status ${statusClass}">${statusIcon}</span><span class="name">${lesson.name}</span><span class="duration">${lesson.duration}</span></div>`;
+        }).join('');
+
+        lessonsList.querySelectorAll('.lesson').forEach(el => {
+            el.addEventListener('click', () => {
+                if (!currentUser) {
+                    document.getElementById('reviewStatus').textContent = '❌ Войдите, чтобы отмечать уроки';
+                    document.getElementById('reviewStatus').style.color = '#ef4444';
+                    return;
+                }
+                const index = parseInt(el.dataset.index);
+                const currentDone = course.lessons[index].done;
+                markLessonDone(courseId, index, !currentDone);
+                openModal(courseId);
+                renderCourses();
+                renderDashboard();
+            });
+        });
+
+        // Отзывы
+        const reviews = getCourseReviews(courseId);
+        const reviewsContainer = document.getElementById('modalReviewsList');
+        if (reviews.length === 0) {
+            reviewsContainer.innerHTML = '<div style="color:#94a3b8;font-size:13px;padding:4px 0;">Пока нет отзывов. Будьте первым!</div>';
+        } else {
+            reviewsContainer.innerHTML = reviews.map(r => `<div class="review-item"><div class="review-author">${r.name}</div><div class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div><div class="review-text">${r.text}</div></div>`).join('');
+        }
+
+        // Видео
+        currentVideoIndex = 0;
+        renderVideoList(course);
+
+        // Сертификат
+        const progress = getCourseProgress(courseId);
+        const certBtn = document.getElementById('certificateBtn');
+        const certStatus = document.getElementById('certStatus');
+        if (progress === 100) {
+            certBtn.style.display = 'inline-block';
+            certStatus.textContent = '🎉 Вы успешно прошли курс!';
+            certStatus.style.color = '#10b981';
+        } else {
+            certBtn.style.display = 'none';
+            certStatus.textContent = `Прогресс: ${progress}%. Пройдите курс полностью, чтобы получить сертификат.`;
+            certStatus.style.color = '#64748b';
+        }
+
+        // ===== АКТИВНАЯ КНОПКА "НАЧАТЬ КУРС" =====
+        const continueBtn = document.getElementById('modalContinueBtn');
+        
+        // Проверяем, записан ли пользователь на курс
+        const isEnrolled = progress > 0;
+        const isCompleted = progress === 100;
+        
+        if (!currentUser) {
+            // Не авторизован — предлагаем войти
+            continueBtn.textContent = '🔑 Войти и начать';
+            continueBtn.style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
+            continueBtn.onclick = function() {
+                closeModal();
+                setTimeout(() => openAuth('login'), 300);
+            };
+        } else if (isCompleted) {
+            // Курс пройден
+            continueBtn.textContent = '🎉 Курс пройден';
+            continueBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+            continueBtn.onclick = function() {
+                closeModal();
+            };
+        } else if (isEnrolled) {
+            // Записан — продолжаем
+            const progressPercent = progress;
+            continueBtn.textContent = `Продолжить (${progressPercent}%) →`;
+            continueBtn.style.background = 'linear-gradient(135deg, #3b82f6, #2563eb)';
+            continueBtn.onclick = function() {
+                const firstUndone = course.lessons.findIndex(l => !l.done);
+                if (firstUndone !== -1) {
+                    markLessonDone(courseId, firstUndone, true);
+                    renderCourses();
+                    renderDashboard();
+                    openModal(courseId);
+                } else {
+                    // Все уроки пройдены, но прогресс почему-то не 100%
+                    setCourseProgress(courseId, 100);
+                    renderCourses();
+                    renderDashboard();
+                    openModal(courseId);
+                }
+            };
+        } else {
+            // Не записан — предлагаем записаться
+            continueBtn.textContent = '📚 Записаться и начать';
+            continueBtn.style.background = 'linear-gradient(135deg, #8b5cf6, #6d28d9)';
+            continueBtn.onclick = function() {
+                // Автоматически записываем на курс
+                course.students += 1;
+                totalStudents += 1;
+                saveData();
+                renderCourses();
+                renderDashboard();
+                // И сразу начинаем первый урок
+                const firstUndone = course.lessons.findIndex(l => !l.done);
+                if (firstUndone !== -1) {
+                    markLessonDone(courseId, firstUndone, true);
+                    renderCourses();
+                    renderDashboard();
+                }
+                openModal(courseId);
+                document.getElementById('reviewStatus').textContent = '✅ Вы записались на курс!';
+                document.getElementById('reviewStatus').style.color = '#10b981';
+                setTimeout(() => {
+                    document.getElementById('reviewStatus').textContent = '';
+                }, 3000);
+            };
+        }
+
+        // ===== КНОПКА "ЗАПИСАТЬСЯ" =====
+        const enrollBtn = document.getElementById('modalEnrollBtn');
+        if (!currentUser) {
+            enrollBtn.textContent = '🔑 Войти, чтобы записаться';
+            enrollBtn.onclick = function() {
+                closeModal();
+                setTimeout(() => openAuth('login'), 300);
+            };
+        } else if (isEnrolled || isCompleted) {
+            enrollBtn.textContent = '✅ Вы уже записаны';
+            enrollBtn.style.background = '#10b981';
+            enrollBtn.style.color = '#fff';
+            enrollBtn.style.borderColor = '#10b981';
+            enrollBtn.onclick = function() {
+                document.getElementById('reviewStatus').textContent = '✅ Вы уже записаны на этот курс';
+                document.getElementById('reviewStatus').style.color = '#10b981';
+                setTimeout(() => {
+                    document.getElementById('reviewStatus').textContent = '';
+                }, 2000);
+            };
+        } else {
+            enrollBtn.textContent = '📚 Записаться';
+            enrollBtn.style.background = '#f8fafc';
+            enrollBtn.style.color = '#1e293b';
+            enrollBtn.style.borderColor = '#e2e8f0';
+            enrollBtn.onclick = function() {
+                course.students += 1;
+                totalStudents += 1;
+                saveData();
+                renderCourses();
+                renderDashboard();
+                openModal(courseId);
+                document.getElementById('reviewStatus').textContent = '✅ Вы записались на курс!';
+                document.getElementById('reviewStatus').style.color = '#10b981';
+                setTimeout(() => {
+                    document.getElementById('reviewStatus').textContent = '';
+                }, 3000);
+            };
+        }
+
+        document.getElementById('reviewName').value = currentUser ? currentUser.name : '';
+        document.getElementById('reviewText').value = '';
+        selectedReviewStar = 0;
+        document.querySelectorAll('#reviewStars .star').forEach(s => {
+            s.classList.remove('active');
+            s.textContent = '☆';
+        });
+        document.getElementById('reviewStatus').textContent = '';
+
+        // Активируем вкладку "Уроки"
+        document.querySelectorAll('.modal-tabs button').forEach(b => b.classList.remove('active'));
+        document.querySelector('.modal-tabs button[data-tab="lessons"]').classList.add('active');
+        document.querySelectorAll('.modal-tab-content').forEach(t => t.classList.remove('active'));
+        document.getElementById('tabLessons').classList.add('active');
+
+        document.getElementById('modalOverlay').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // ===== ВИДЕО =====
+    function renderVideoList(course) {
+        const container = document.getElementById('videoSelect');
+        const player = document.getElementById('videoPlayer');
+        const title = document.getElementById('videoTitle');
+        const desc = document.getElementById('videoDesc');
+
+        container.innerHTML = course.lessons.map((lesson, index) => {
+            return `<button class="${index === 0 ? 'active' : ''}" data-index="${index}">${lesson.name}</button>`;
+        }).join('');
+
+        container.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const index = parseInt(btn.dataset.index);
+                container.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                loadVideo(course, index);
+            });
+        });
+
+        if (course.lessons.length > 0) {
+            loadVideo(course, 0);
+        }
+    }
+
+    function loadVideo(course, index) {
+        const lesson = course.lessons[index];
+        if (!lesson) return;
+        const player = document.getElementById('videoPlayer');
+        const title = document.getElementById('videoTitle');
+        const desc = document.getElementById('videoDesc');
+
+        const videoId = lesson.video || 'dQw4w9WgXcQ';
+        player.src = `https://www.youtube.com/embed/${videoId}`;
+        title.textContent = lesson.name;
+        desc.textContent = lesson.desc || 'Видеоурок по теме.';
+    }
+
+    // ===== СЕРТИФИКАТ =====
+    function generateCertificate() {
+        if (!currentUser || currentCourseId === null) return;
+        const course = coursesData.find(c => c.id === currentCourseId);
+        if (!course) return;
+        const progress = getCourseProgress(currentCourseId);
+        if (progress < 100) {
+            alert('Пройдите курс полностью, чтобы получить сертификат.');
+            return;
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = 1000;
+        canvas.height = 700;
+        const ctx = canvas.getContext('2d');
+
+        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+        gradient.addColorStop(0, '#f8fafc');
+        gradient.addColorStop(0.5, '#ffffff');
+        gradient.addColorStop(1, '#f1f5f9');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.strokeStyle = '#3b82f6';
+        ctx.lineWidth = 6;
+        ctx.strokeRect(30, 30, canvas.width - 60, canvas.height - 60);
+
+        ctx.strokeStyle = '#3b82f640';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(50, 50, canvas.width - 100, canvas.height - 100);
+
+        ctx.fillStyle = '#0f172a';
+        ctx.font = 'bold 48px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('🎓 СЕРТИФИКАТ', canvas.width / 2, 120);
+
+        ctx.fillStyle = '#1e293b';
+        ctx.font = 'bold 36px Inter, sans-serif';
+        ctx.fillText(currentUser.name, canvas.width / 2, 220);
+
+        ctx.fillStyle = '#475569';
+        ctx.font = '22px Inter, sans-serif';
+        ctx.fillText('успешно завершил(а) курс', canvas.width / 2, 280);
+
+        ctx.fillStyle = '#3b82f6';
+        ctx.font = 'bold 30px Inter, sans-serif';
+        ctx.fillText(`«${course.title}»`, canvas.width / 2, 340);
+
+        const now = new Date();
+        const dateStr = now.toLocaleDateString('ru-RU', { day: '2-digit', month: 'long', year: 'numeric' });
+        ctx.fillStyle = '#64748b';
+        ctx.font = '18px Inter, sans-serif';
+        ctx.fillText(`Дата выдачи: ${dateStr}`, canvas.width / 2, 420);
+
+        const id = `EDU-${String(currentCourseId).padStart(4, '0')}-${String(Math.floor(Math.random() * 10000)).padStart(4, '0')}`;
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '14px Inter, sans-serif';
+        ctx.fillText(`ID: ${id}`, canvas.width / 2, 480);
+
+        ctx.fillStyle = '#64748b';
+        ctx.font = '14px Inter, sans-serif';
+        ctx.fillText('EduPlatform © 2026', canvas.width / 2, 560);
+
+        ctx.beginPath();
+        ctx.moveTo(canvas.width / 2 - 80, 540);
+        ctx.lineTo(canvas.width / 2 + 80, 540);
+        ctx.strokeStyle = '#3b82f6';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.fillStyle = '#3b82f608';
+        ctx.font = 'bold 140px Inter, sans-serif';
+        ctx.fillText('Edu', canvas.width / 2, 420);
+
+        ctx.fillStyle = '#3b82f6';
+        ctx.font = 'bold 16px Inter, sans-serif';
+        ctx.fillText('EduPlatform', 70, 70);
+
+        return canvas;
+    }
+
+    function downloadCertificate() {
+        const canvas = generateCertificate();
+        if (!canvas) return;
+        const link = document.createElement('a');
+        link.download = `Сертификат_${currentUser.name}_${Date.now()}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    }
+
+    document.getElementById('certificateBtn').addEventListener('click', downloadCertificate);
+
+    // ===== ВКЛАДКИ =====
+    document.querySelectorAll('.modal-tabs button').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.modal-tabs button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.modal-tab-content').forEach(t => t.classList.remove('active'));
+            const tabId = btn.dataset.tab;
+            document.getElementById('tab' + tabId.charAt(0).toUpperCase() + tabId.slice(1)).classList.add('active');
+        });
+    });
+
+    // ===== ОБРАБОТЧИКИ МОДАЛКИ =====
+    function closeModal() {
+        document.getElementById('modalOverlay').classList.remove('active');
+        document.body.style.overflow = '';
+        currentCourseId = null;
+    }
+
+    document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+    document.getElementById('modalCloseBtn2').addEventListener('click', closeModal);
+    document.getElementById('modalOverlay').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && document.getElementById('modalOverlay').classList.contains('active')) closeModal();
+    });
+
+    // ===== ОТЗЫВЫ =====
+    document.querySelectorAll('#reviewStars .star').forEach(star => {
+        star.addEventListener('click', () => {
+            const value = parseInt(star.dataset.value);
+            selectedReviewStar = value;
+            document.querySelectorAll('#reviewStars .star').forEach(s => {
+                const v = parseInt(s.dataset.value);
+                s.classList.toggle('active', v <= value);
+                s.textContent = v <= value ? '★' : '☆';
+            });
+        });
+        star.addEventListener('mouseenter', () => {
+            const value = parseInt(star.dataset.value);
+            document.querySelectorAll('#reviewStars .star').forEach(s => {
+                const v = parseInt(s.dataset.value);
+                if (v <= value) { s.textContent = '★'; s.style.color = '#f59e0b'; } else { s.textContent = '☆'; s.style.color = '#d1d5db'; }
+            });
+        });
+        star.addEventListener('mouseleave', () => {
+            document.querySelectorAll('#reviewStars .star').forEach(s => {
+                const v = parseInt(s.dataset.value);
+                s.textContent = v <= selectedReviewStar ? '★' : '☆';
+                s.style.color = v <= selectedReviewStar ? '#f59e0b' : '#d1d5db';
+            });
+        });
+    });
+
+    document.getElementById('submitReview').addEventListener('click', () => {
+        if (!currentUser) {
+            document.getElementById('reviewStatus').textContent = '❌ Войдите, чтобы оставить отзыв';
+            document.getElementById('reviewStatus').style.color = '#ef4444';
+            return;
+        }
+        if (currentCourseId === null) return;
+        const name = document.getElementById('reviewName').value.trim() || currentUser.name;
+        const text = document.getElementById('reviewText').value.trim();
+        const status = document.getElementById('reviewStatus');
+
+        if (selectedReviewStar === 0) {
+            status.textContent = '❌ Выберите оценку';
+            status.style.color = '#ef4444';
+            return;
+        }
+        if (!text || text.length < 3) {
+            status.textContent = '❌ Напишите отзыв (минимум 3 символа)';
+            status.style.color = '#ef4444';
+            return;
+        }
+
+        addReview(currentCourseId, name, selectedReviewStar, text);
+        renderCourses();
+        renderDashboard();
+        openModal(currentCourseId);
+        status.textContent = '✅ Отзыв добавлен!';
+        status.style.color = '#10b981';
+        document.getElementById('reviewText').value = '';
+        selectedReviewStar = 0;
+        document.querySelectorAll('#reviewStars .star').forEach(s => {
+            s.classList.remove('active');
+            s.textContent = '☆';
+        });
+        setTimeout(() => { status.textContent = ''; }, 3000);
+    });
+
+    // ===== АВТОРИЗАЦИЯ =====
+    function openAuth(mode = 'login') {
+        isLoginMode = mode === 'login';
+        document.getElementById('authOverlay').classList.add('active');
+        if (isLoginMode) {
+            document.getElementById('authTitle').textContent = 'Вход';
+            document.getElementById('authSub').textContent = 'Войдите в свой аккаунт';
+            document.getElementById('authSubmitBtn').textContent = 'Войти';
+            document.getElementById('switchBtn').textContent = 'Зарегистрироваться';
+            document.getElementById('roleGroup').style.display = 'none';
+        } else {
+            document.getElementById('authTitle').textContent = 'Регистрация';
+            document.getElementById('authSub').textContent = 'Создайте новый аккаунт';
+            document.getElementById('authSubmitBtn').textContent = 'Зарегистрироваться';
+            document.getElementById('switchBtn').textContent = 'Войти';
+            document.getElementById('roleGroup').style.display = 'block';
+        }
+        document.getElementById('authError').textContent = '';
+        document.getElementById('authUsername').value = '';
+        document.getElementById('authPassword').value = '';
+        document.getElementById('authRole').value = 'student';
+    }
+
+    function closeAuth() {
+        document.getElementById('authOverlay').classList.remove('active');
+    }
+
+    document.getElementById('loginBtn').addEventListener('click', () => openAuth('login'));
+    document.getElementById('switchBtn').addEventListener('click', () => openAuth(isLoginMode ? 'register' : 'login'));
+    document.getElementById('authCloseBtn').addEventListener('click', closeAuth);
+    document.getElementById('authOverlay').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) closeAuth();
+    });
+
+    document.getElementById('authForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const username = document.getElementById('authUsername').value.trim();
+        const password = document.getElementById('authPassword').value.trim();
+        const role = document.getElementById('authRole').value;
+        const error = document.getElementById('authError');
+
+        if (!username || !password) {
+            error.textContent = '❌ Заполните все поля';
+            return;
+        }
+
+        if (isLoginMode) {
+            const result = loginUser(username, password);
+            if (result.success) {
+                closeAuth();
+                updateUI();
+                renderCourses();
+                renderDashboard();
+                if (currentCourseId !== null) openModal(currentCourseId);
+            } else {
+                error.textContent = '❌ ' + result.error;
+            }
+        } else {
+            const result = registerUser(username, password, role, username);
+            if (result.success) {
+                const loginResult = loginUser(username, password);
+                if (loginResult.success) {
+                    closeAuth();
+                    updateUI();
+                    renderCourses();
+                    renderDashboard();
+                }
+            } else {
+                error.textContent = '❌ ' + result.error;
+            }
+        }
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+        logoutUser();
+        renderCourses();
+        renderDashboard();
+    });
+
+    // ===== ФИЛЬТРЫ =====
+    document.querySelectorAll('#filterBtns button').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('#filterBtns button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentFilter = btn.dataset.filter;
+            renderCourses();
+        });
+    });
+
+    document.getElementById('searchInput').addEventListener('input', renderCourses);
+    document.getElementById('sortSelect').addEventListener('change', (e) => {
+        currentSort = e.target.value;
+        renderCourses();
+    });
+
+    document.getElementById('scrollToCourses').addEventListener('click', () => {
+        document.getElementById('courses').scrollIntoView({ behavior: 'smooth' });
+    });
+    document.getElementById('scrollToAbout').addEventListener('click', () => {
+        document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // ===== АНИМАЦИЯ =====
+    const scrollElements = document.querySelectorAll('.scroll-fade');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.15 });
+    scrollElements.forEach(el => observer.observe(el));
+
+    // ===== МОБИЛЬНОЕ МЕНЮ =====
+    document.getElementById('mobileToggle').addEventListener('click', () => {
+        const nav = document.querySelector('.nav');
+        nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+        nav.style.flexDirection = 'column';
+        nav.style.position = 'absolute';
+        nav.style.top = '70px';
+        nav.style.left = '0';
+        nav.style.width = '100%';
+        nav.style.background = 'rgba(255,255,255,0.98)';
+        nav.style.backdropFilter = 'blur(12px)';
+        nav.style.padding = '20px';
+        nav.style.gap = '16px';
+        nav.style.boxShadow = '0 4px 16px rgba(0,0,0,0.06)';
+        nav.style.zIndex = '99';
+        nav.style.borderBottom = '1px solid #e2e8f0';
+    });
+
+    // ===== ИНИЦИАЛИЗАЦИЯ =====
+    loadData();
+    updateUI();
+    renderCourses();
+    renderDashboard();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const courseId = urlParams.get('course');
+    if (courseId) {
+        setTimeout(() => openModal(parseInt(courseId)), 500);
+    }
+</script>
+
+</body>
+</html>

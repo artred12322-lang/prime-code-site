@@ -1,0 +1,2824 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Prime Code — инженер цифровых продуктов</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&family=Switzer:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #f5f7fa;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+            font-weight: 400;
+            overflow-x: hidden;
+            background: #0b0d15;
+        }
+
+        h1, h2, h3, .stat-number, .card-price, .tag, .btn-primary, .btn-outline, .btn-card, .hero-gradient, .step-title, .logo-text, .portfolio-link, .chat-header h4, .about-stat-number, .offer-feature h4, .offer-form h3, .contact-link, .offer-submit, .footer-logo, .footer-col h4, .tariff-option, .messenger-option, .dot-num, .tariff-name, .portfolio-title, .popup-stat strong, .popup-btn, .faq-question, .admin-panel label {
+            font-family: 'Switzer', sans-serif;
+            font-weight: 500;
+            letter-spacing: -0.03em;
+        }
+        .stat-number, .card-price, .about-stat-number, .tariff-price {
+            font-weight: 600;
+        }
+        p, li, .nav a, .stat-card div:not(.stat-number), .card-features li, .form-group input, .form-group select, .footer p, .step-desc, .step-tags span, .portfolio-tech span, .about-text p, .about-stat-desc, .chat-messages .text, .offer-lead, .offer-feature p, .offer-hint, .form-group textarea, .footer-desc, .footer-col ul li a, .footer-bottom p, .footer-tagline, .dot-label, .tariff-desc, .portfolio-desc, .popup-desc, .popup-stat span, .portfolio-hover-text, .faq-answer, .admin-panel input, .admin-panel textarea, .admin-panel select {
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+        .nav a {
+            font-weight: 500;
+            letter-spacing: -0.2px;
+        }
+
+        .image-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -3;
+            background-image: url('bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .dark-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: rgba(0, 0, 0, 0.65);
+        }
+        .gradient-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 30%, rgba(0,168,255,0.1), transparent 60%),
+                        radial-gradient(circle at 80% 70%, rgba(139,92,246,0.08), transparent 70%);
+            pointer-events: none;
+        }
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate {
+            animation: fadeUp 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+            opacity: 0;
+        }
+
+        .header {
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(12px);
+            background: rgba(1, 1, 1, 0.3);
+            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+        }
+        .logo-img {
+            height: 60px;
+            width: auto;
+            display: block;
+            transition: opacity 0.2s ease;
+        }
+        .logo-text {
+            font-size: 28px;
+            font-weight: 500;
+            letter-spacing: -1.5px;
+            background: linear-gradient(135deg, #ffffff 0%, #00a8ff 30%, #8b5cf6 60%, #00a8ff 100%);
+            background-size: 300% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: shimmer 3s linear infinite;
+            text-shadow: 0 0 5px rgba(0,168,255,0.5);
+        }
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .nav a {
+            color: #e0e5f0;
+            text-decoration: none;
+            margin-left: 40px;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: -0.2px;
+            transition: 0.2s;
+        }
+        .nav a:hover { color: #00a8ff; }
+        .nav .btn-telegram {
+            background: rgba(0,168,255,0.12);
+            border: 1px solid rgba(0,168,255,0.25);
+            padding: 8px 18px;
+            color: #00a8ff;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav .btn-telegram:hover {
+            background: rgba(0,168,255,0.2);
+            border-color: #00a8ff;
+            transform: translateY(-2px);
+        }
+
+        .hero-about {
+            padding: 40px 0 40px;
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+        }
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+        .hero-content h1 {
+            font-size: 56px;
+            font-weight: 500;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            letter-spacing: -2.5px;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #fff, #00a8ff, #8b5cf6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .hero-content p {
+            font-size: 16px;
+            color: #cbd5e6;
+            font-weight: 400;
+        }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        .about-text .lead {
+            font-size: 18px;
+            color: #00a8ff;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+        .about-text p {
+            color: #cbd5e6;
+            margin-bottom: 16px;
+            line-height: 1.5;
+            font-weight: 400;
+            font-size: 14px;
+        }
+        .about-stats {
+            display: flex;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        .about-stat-number {
+            font-size: 32px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #fff, #00a8ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            line-height: 1;
+        }
+        .about-stat-desc {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+        .about-image {
+            background: transparent;
+            padding: 10px;
+            text-align: center;
+        }
+        .glow-image {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            border-radius: 0;
+            transition: filter 0.3s ease;
+        }
+        .glow-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 0;
+            position: relative;
+            z-index: 2;
+        }
+        .glow-image::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            background: linear-gradient(135deg, #00a8ff, #8b5cf6, #00a8ff);
+            filter: blur(12px);
+            opacity: 0.7;
+            z-index: 1;
+            animation: neonPulse 2.5s ease-in-out infinite alternate;
+        }
+        @keyframes neonPulse {
+            0% { opacity: 0.4; filter: blur(10px); }
+            100% { opacity: 1; filter: blur(16px); }
+        }
+        .quote-text {
+            margin-top: 16px;
+            font-family: 'Switzer', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            color: #cbd5e6;
+            letter-spacing: -0.3px;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 6px;
+        }
+        .quote-text::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            width: 50%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00a8ff, #8b5cf6, transparent);
+        }
+
+        .process-section {
+            padding: 80px 0 60px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .steps-counter {
+            max-width: 600px;
+            margin: 40px auto 20px;
+            position: relative;
+        }
+        .steps-counter-line {
+            width: 100%;
+            height: 2px;
+            background: rgba(255,255,255,0.1);
+            position: relative;
+            margin-bottom: 16px;
+        }
+        .steps-counter-progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #00a8ff, #8b5cf6);
+            transition: width 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .steps-counter-dots {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 0;
+        }
+        .step-dot {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .step-dot .dot-num {
+            font-size: 14px;
+            font-weight: 600;
+            color: #6c7a91;
+            transition: all 0.3s ease;
+        }
+        .step-dot .dot-label {
+            font-size: 11px;
+            color: #6c7a91;
+            font-weight: 400;
+            transition: all 0.3s ease;
+        }
+        .step-dot.active .dot-num {
+            color: #00a8ff;
+            text-shadow: 0 0 10px rgba(0,168,255,0.3);
+        }
+        .step-dot.active .dot-label {
+            color: #cbd5e6;
+        }
+        .process-timeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            gap: 30px;
+            margin-top: 20px;
+            position: relative;
+        }
+        .process-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.06);
+            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .process-step.active {
+            border-color: rgba(0,168,255,0.5);
+            box-shadow: 0 0 25px rgba(0,168,255,0.15);
+            background: rgba(0, 0, 0, 0.6);
+        }
+        .process-step:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0,168,255,0.4);
+            box-shadow: 0 15px 35px -15px rgba(0,168,255,0.2);
+        }
+        .step-number-bg {
+            position: absolute;
+            top: 10px;
+            left: 16px;
+            font-size: 36px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00a8ff, #8b5cf6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            line-height: 1;
+            z-index: 3;
+            text-shadow: 0 0 20px rgba(0,168,255,0.2);
+        }
+        .step-image {
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: auto;
+            min-height: 180px;
+            max-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .step-image img {
+            width: 100%;
+            height: auto;
+            max-height: 300px;
+            object-fit: contain;
+            display: block;
+            transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .process-step:hover .step-image img {
+            transform: scale(1.02);
+        }
+        .step-image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
+            pointer-events: none;
+        }
+        .step-content {
+            padding: 24px 20px 28px;
+        }
+        .step-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+        .step-desc {
+            color: #cbd5e6;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+        .step-tags {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .step-tags span {
+            background: rgba(0,168,255,0.12);
+            padding: 4px 14px;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            color: #00a8ff;
+            border: 1px solid rgba(0,168,255,0.1);
+        }
+
+        .portfolio-section {
+            padding: 80px 0 100px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .portfolio-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .portfolio-header h2 {
+            font-size: 48px;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+        .portfolio-header .subtitle {
+            color: #cbd5e6;
+            font-size: 16px;
+        }
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        .portfolio-item {
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0,168,255,0.15);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            cursor: pointer;
+        }
+        .portfolio-item:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0,168,255,0.5);
+            box-shadow: 0 20px 40px -15px rgba(0,168,255,0.2);
+        }
+        .portfolio-img {
+            width: 100%;
+            height: auto;
+            min-height: 200px;
+            max-height: 400px;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .portfolio-img img {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: contain;
+            transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            display: block;
+        }
+        .portfolio-item:hover .portfolio-img img {
+            transform: scale(1.02);
+        }
+        .portfolio-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,168,255,0.3), rgba(139,92,246,0.3));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            pointer-events: none;
+        }
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+        }
+        .portfolio-link-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+        .portfolio-link-icon:hover {
+            background: #00a8ff;
+            border-color: #00a8ff;
+            transform: scale(1.1);
+        }
+        .portfolio-hover-text {
+            color: white;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s ease;
+        }
+        .portfolio-item:hover .portfolio-hover-text {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .portfolio-info {
+            padding: 28px 24px 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .portfolio-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+        .portfolio-desc {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 16px;
+            line-height: 1.5;
+            flex: 1;
+        }
+        .portfolio-tech {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        .portfolio-tech span {
+            background: rgba(0,168,255,0.1);
+            padding: 5px 14px;
+            font-size: 10px;
+            font-weight: 500;
+            color: #00a8ff;
+            border: 1px solid rgba(0,168,255,0.1);
+            letter-spacing: 0.5px;
+        }
+        .portfolio-links {
+            display: flex;
+            gap: 20px;
+            margin-top: auto;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .portfolio-link {
+            color: #00a8ff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+        .portfolio-link:hover {
+            gap: 10px;
+            color: #8b5cf6;
+        }
+
+        .tariffs-section {
+            padding: 80px 0;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .tariffs-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .tariffs-header h2 {
+            font-size: 48px;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+        .tariffs-header .subtitle {
+            color: #cbd5e6;
+            font-size: 16px;
+        }
+        .tariffs-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            align-items: stretch;
+        }
+        .tariff-card {
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 32px 24px;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        .tariff-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(0, 168, 255, 0.3);
+        }
+        .tariff-card.featured {
+            border-color: rgba(0, 168, 255, 0.4);
+            background: rgba(0, 168, 255, 0.08);
+            transform: scale(1.03);
+        }
+        .tariff-card.featured:hover {
+            border-color: rgba(0, 168, 255, 0.6);
+            transform: scale(1.03) translateY(-6px);
+        }
+        .tariff-badge {
+            display: inline-block;
+            background: rgba(0, 168, 255, 0.12);
+            padding: 4px 14px;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: #00a8ff;
+            border: 1px solid rgba(0, 168, 255, 0.1);
+            margin-bottom: 20px;
+            align-self: flex-start;
+        }
+        .tariff-card.featured .tariff-badge {
+            background: linear-gradient(135deg, rgba(0, 168, 255, 0.2), rgba(139, 92, 246, 0.2));
+            border-color: rgba(0, 168, 255, 0.3);
+            color: #8b5cf6;
+        }
+        .tariff-name {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .tariff-price {
+            font-size: 36px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, #00a8ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 16px;
+        }
+        .tariff-card.featured .tariff-price {
+            background: linear-gradient(135deg, #fff, #8b5cf6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .tariff-desc {
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 24px;
+            flex: 1;
+        }
+        .tariff-features {
+            list-style: none;
+            margin-bottom: 30px;
+            flex: 1;
+        }
+        .tariff-features li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #cbd5e6;
+            font-size: 13px;
+        }
+        .tariff-features li i {
+            color: #00a8ff;
+            width: 18px;
+            font-size: 12px;
+        }
+        .tariff-btn {
+            width: 100%;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px;
+            color: #fff;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+        .tariff-btn:hover {
+            background: rgba(0, 168, 255, 0.1);
+            border-color: #00a8ff;
+            color: #00a8ff;
+        }
+        .tariff-card.featured .tariff-btn {
+            background: linear-gradient(135deg, #00a8ff, #8b5cf6);
+            border: none;
+            color: white;
+        }
+        .tariff-card.featured .tariff-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,168,255,0.3);
+        }
+
+        .faq-section {
+            padding: 80px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .faq-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .faq-header h2 {
+            font-size: 48px;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            margin-bottom: 4px;
+        }
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 500;
+            color: #fff;
+            transition: color 0.2s ease;
+            user-select: none;
+        }
+        .faq-question:hover {
+            color: #00a8ff;
+        }
+        .faq-question i {
+            font-size: 18px;
+            transition: transform 0.3s ease;
+            color: #6c7a91;
+        }
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+            color: #00a8ff;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+            color: #cbd5e6;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding-bottom: 24px;
+        }
+
+        .contact-offer-2026 {
+            padding: 80px 0;
+            background: rgba(0, 0, 0, 0.4);
+            border-top: 1px solid rgba(0,168,255,0.1);
+            border-bottom: 1px solid rgba(0,168,255,0.1);
+        }
+        .offer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .offer-badge {
+            display: inline-block;
+            background: rgba(0,168,255,0.15);
+            border-left: 3px solid #00a8ff;
+            padding: 6px 16px;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+        }
+        .offer-content h2 {
+            font-size: 42px;
+            font-weight: 500;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+        .offer-lead {
+            font-size: 16px;
+            color: #cbd5e6;
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+        .offer-features {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        .offer-feature {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+        .offer-feature i {
+            font-size: 28px;
+            color: #00a8ff;
+            width: 48px;
+        }
+        .offer-feature h4 {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        .offer-feature p {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+        .offer-contacts {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        .contact-link {
+            font-size: 18px;
+            font-weight: 500;
+            color: #fff;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .contact-link:hover {
+            border-color: #00a8ff;
+            color: #00a8ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 168, 255, 0.15);
+        }
+        .contact-link i {
+            font-size: 20px;
+            width: 24px;
+        }
+
+        .offer-form {
+            background: rgba(0,0,0,0.45);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0,168,255,0.2);
+            padding: 40px;
+            position: relative;
+        }
+        .offer-form h3 {
+            font-size: 28px;
+            font-weight: 500;
+            margin-bottom: 28px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 14px 20px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #fff;
+            font-size: 14px;
+        }
+        .form-group textarea {
+            resize: vertical;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #00a8ff;
+        }
+        .honeypot {
+            position: absolute;
+            left: -9999px;
+            top: -9999px;
+            opacity: 0;
+            pointer-events: none;
+            width: 0;
+            height: 0;
+            overflow: hidden;
+        }
+        .messenger-selector {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .messenger-option {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 12px 16px;
+            color: #94a3b8;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .messenger-option i {
+            font-size: 18px;
+        }
+        .messenger-option:hover {
+            border-color: #00a8ff;
+            color: #00a8ff;
+            background: rgba(0, 168, 255, 0.05);
+        }
+        .messenger-option.active {
+            background: linear-gradient(135deg, #00a8ff, #8b5cf6);
+            border-color: transparent;
+            color: white;
+            box-shadow: 0 0 12px rgba(0, 168, 255, 0.3);
+        }
+        .tariff-selector {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .tariff-option {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 12px 16px;
+            color: #94a3b8;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+        .tariff-option:hover {
+            border-color: #00a8ff;
+            color: #00a8ff;
+            background: rgba(0, 168, 255, 0.05);
+        }
+        .tariff-option.active {
+            background: linear-gradient(135deg, #00a8ff, #8b5cf6);
+            border-color: transparent;
+            color: white;
+            box-shadow: 0 0 12px rgba(0, 168, 255, 0.3);
+        }
+        .offer-submit {
+            width: 100%;
+            background: linear-gradient(135deg, #00a8ff, #8b5cf6);
+            border: none;
+            padding: 14px;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 10px;
+        }
+        .offer-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,168,255,0.3);
+        }
+        .offer-hint {
+            text-align: center;
+            font-size: 11px;
+            color: #6c7a91;
+            margin-top: 16px;
+        }
+
+        .footer {
+            padding: 60px 0 30px;
+            background: rgba(0, 0, 0, 0.6);
+            border-top: 1px solid rgba(0,168,255,0.1);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .footer-logo span {
+            background: linear-gradient(135deg, #00a8ff, #8b5cf6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .footer-desc {
+            font-size: 13px;
+            color: #94a3b8;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        .footer-social {
+            display: flex;
+            gap: 16px;
+        }
+        .footer-social a {
+            color: #94a3b8;
+            font-size: 18px;
+            transition: 0.2s;
+        }
+        .footer-social a:hover {
+            color: #00a8ff;
+            transform: translateY(-2px);
+        }
+        .footer-col h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .footer-col ul {
+            list-style: none;
+        }
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+        .footer-col ul li a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 13px;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .footer-col ul li a:hover {
+            color: #00a8ff;
+            transform: translateX(4px);
+        }
+        .footer-col ul li i {
+            color: #00a8ff;
+            width: 20px;
+            font-size: 12px;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer-bottom p {
+            font-size: 12px;
+            color: #6c7a91;
+        }
+
+        /* ===== ИДЕАЛЬНЫЙ КРАСИВЫЙ ЧАТ ===== */
+        .chat-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .chat-button {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #6C63FF, #4A3FCF);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 6px 24px rgba(108, 99, 255, 0.35);
+            transition: all 0.3s ease;
+            border: none;
+            color: white;
+            font-size: 24px;
+            position: relative;
+        }
+
+        .chat-button:hover {
+            transform: scale(1.08);
+            box-shadow: 0 8px 32px rgba(108, 99, 255, 0.5);
+        }
+
+        .chat-button .notification-dot {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 10px;
+            height: 10px;
+            background: #FF6B6B;
+            border-radius: 50%;
+            border: 2px solid #0b0d15;
+            display: none;
+        }
+
+        .chat-window {
+            position: absolute;
+            bottom: 72px;
+            right: 0;
+            width: 380px;
+            max-width: calc(100vw - 32px);
+            background: rgba(12, 14, 26, 0.97);
+            backdrop-filter: blur(24px);
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(16px) scale(0.96);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+        }
+
+        .chat-window.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .chat-header {
+            background: rgba(108, 99, 255, 0.08);
+            padding: 14px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header .chat-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chat-header .chat-title .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6C63FF, #4A3FCF);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .chat-header .chat-title .info h4 {
+            font-size: 15px;
+            font-weight: 600;
+            margin: 0;
+            color: #f0f2f8;
+            letter-spacing: -0.2px;
+        }
+
+        .chat-header .chat-title .info .status {
+            font-size: 11px;
+            color: #34d399;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .chat-header .chat-title .info .status .dot {
+            width: 6px;
+            height: 6px;
+            background: #34d399;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulseDot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        .chat-close {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: #94a3b8;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-close:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.08);
+            transform: rotate(90deg);
+        }
+
+        .chat-messages {
+            padding: 14px 16px;
+            max-height: 320px;
+            min-height: 180px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+        .chat-messages::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #6C63FF, #4A3FCF);
+            border-radius: 4px;
+        }
+
+        .message-bot {
+            display: flex;
+            gap: 8px;
+            animation: fadeMessage 0.3s ease;
+        }
+
+        @keyframes fadeMessage {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message-bot .avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6C63FF, #4A3FCF);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            flex-shrink: 0;
+            color: #fff;
+            margin-top: 2px;
+        }
+
+        .message-bot .bubble {
+            background: rgba(108, 99, 255, 0.08);
+            padding: 6px 14px;
+            border-radius: 14px 14px 14px 4px;
+            font-size: 13px;
+            color: #e8edf5;
+            max-width: 85%;
+            border: 1px solid rgba(108, 99, 255, 0.06);
+            line-height: 1.5;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .message-bot .bubble .time {
+            font-size: 9px;
+            color: #5a6a7e;
+            margin-top: 3px;
+            display: block;
+            opacity: 0.6;
+            font-weight: 400;
+        }
+
+        .message-user {
+            display: flex;
+            justify-content: flex-end;
+            animation: fadeMessage 0.3s ease;
+        }
+
+        .message-user .bubble {
+            background: linear-gradient(135deg, rgba(108, 99, 255, 0.12), rgba(74, 63, 207, 0.12));
+            padding: 6px 14px;
+            border-radius: 14px 14px 4px 14px;
+            font-size: 13px;
+            color: #e8edf5;
+            max-width: 85%;
+            border: 1px solid rgba(108, 99, 255, 0.06);
+            line-height: 1.5;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .message-user .bubble .time {
+            font-size: 9px;
+            color: #5a6a7e;
+            margin-top: 3px;
+            display: block;
+            text-align: right;
+            opacity: 0.6;
+            font-weight: 400;
+        }
+
+        .quick-replies {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            padding: 6px 16px 12px;
+            background: rgba(0, 0, 0, 0.06);
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .quick-replies button {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 4px 12px;
+            border-radius: 18px;
+            color: #b0c0d4;
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            letter-spacing: 0.2px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .quick-replies button:hover {
+            background: rgba(108, 99, 255, 0.1);
+            border-color: rgba(108, 99, 255, 0.2);
+            color: #6C63FF;
+            transform: translateY(-1px);
+        }
+
+        .quick-replies button:active {
+            transform: scale(0.95);
+        }
+
+        .chat-input-area {
+            padding: 6px 16px 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            background: rgba(0, 0, 0, 0.06);
+        }
+
+        .chat-input-area .chat-input-group {
+            display: flex;
+            gap: 8px;
+            align-items: flex-end;
+        }
+
+        .chat-input-area .chat-input-group textarea {
+            flex: 1;
+            padding: 8px 14px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            color: #f1f5f9;
+            font-size: 13px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            resize: none;
+            min-height: 36px;
+            max-height: 100px;
+            line-height: 1.4;
+        }
+
+        .chat-input-area .chat-input-group textarea:focus {
+            outline: none;
+            border-color: rgba(108, 99, 255, 0.3);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .chat-input-area .chat-input-group textarea::placeholder {
+            color: #5a6a7e;
+        }
+
+        .chat-input-area .chat-send {
+            background: linear-gradient(135deg, #6C63FF, #4A3FCF);
+            border: none;
+            padding: 0 16px;
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .chat-input-area .chat-send:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(108, 99, 255, 0.3);
+        }
+
+        .chat-input-area .chat-send:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .chat-input-area .chat-status {
+            margin-top: 6px;
+            font-size: 11px;
+            text-align: center;
+            color: #5a6a7e;
+            min-height: 18px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        @media (max-width: 600px) {
+            .chat-widget {
+                bottom: 16px;
+                right: 16px;
+            }
+            
+            .chat-button {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            
+            .chat-window {
+                bottom: 68px;
+                right: 0;
+                width: calc(100vw - 32px);
+                border-radius: 16px;
+            }
+            
+            .chat-header {
+                padding: 12px 14px;
+            }
+            
+            .chat-header .chat-title .avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 12px;
+            }
+            
+            .chat-header .chat-title .info h4 {
+                font-size: 14px;
+            }
+            
+            .chat-messages {
+                padding: 10px 12px;
+                max-height: 240px;
+                min-height: 140px;
+                gap: 4px;
+            }
+            
+            .message-bot .bubble,
+            .message-user .bubble {
+                font-size: 12px;
+                padding: 5px 12px;
+            }
+            
+            .message-bot .avatar {
+                width: 24px;
+                height: 24px;
+                font-size: 10px;
+            }
+            
+            .quick-replies {
+                padding: 4px 12px 10px;
+                gap: 4px;
+            }
+            
+            .quick-replies button {
+                font-size: 10px;
+                padding: 3px 10px;
+            }
+            
+            .chat-input-area {
+                padding: 4px 12px 12px;
+            }
+            
+            .chat-input-area .chat-input-group textarea {
+                font-size: 12px;
+                padding: 6px 12px;
+                min-height: 32px;
+            }
+            
+            .chat-input-area .chat-send {
+                height: 32px;
+                padding: 0 14px;
+                font-size: 12px;
+            }
+        }
+
+        .scroll-fade { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+        .scroll-fade.visible { opacity: 1; transform: translateY(0); }
+
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(12px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .popup-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+        .popup {
+            background: rgba(10, 15, 25, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0,168,255,0.2);
+            max-width: 960px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.95) translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .popup-overlay.active .popup {
+            transform: scale(1) translateY(0);
+        }
+        .popup::-webkit-scrollbar { width: 4px; }
+        .popup::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+        .popup::-webkit-scrollbar-thumb { background: #00a8ff; }
+
+        .popup-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 28px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+        .popup-close:hover {
+            color: #fff;
+            transform: rotate(90deg);
+        }
+
+        .popup-gallery {
+            position: relative;
+            width: 100%;
+            height: auto;
+            min-height: 250px;
+            max-height: 500px;
+            background: #0a0f1a;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .popup-gallery-track {
+            display: flex;
+            height: auto;
+            width: 100%;
+            transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            align-items: center;
+        }
+        .popup-gallery-img {
+            min-width: 100%;
+            height: auto;
+            max-height: 480px;
+            object-fit: contain;
+            flex-shrink: 0;
+            display: block;
+        }
+        .popup-gallery-img-label {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(10, 13, 21, 0.85);
+            backdrop-filter: blur(12px);
+            padding: 8px 24px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #e8e4dc;
+            border: 1px solid rgba(0, 168, 255, 0.25);
+            z-index: 5;
+            white-space: nowrap;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-family: 'Switzer', sans-serif;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+        .popup-gallery-img-label::before {
+            content: '📸 ';
+            font-size: 11px;
+            opacity: 0.6;
+        }
+        .popup-gallery-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.1);
+            width: 40px;
+            height: 40px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+        }
+        .popup-gallery-btn:hover {
+            background: #00a8ff;
+            border-color: #00a8ff;
+        }
+        .popup-gallery-btn.prev { left: 16px; }
+        .popup-gallery-btn.next { right: 16px; }
+        .popup-gallery-dots {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 5;
+        }
+        .popup-gallery-dots span {
+            width: 8px;
+            height: 8px;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .popup-gallery-dots span.active {
+            background: #00a8ff;
+            width: 24px;
+        }
+
+        .popup-body {
+            padding: 32px 36px 36px;
+        }
+        .popup-content {
+            margin-bottom: 28px;
+        }
+        .popup-title {
+            font-size: 30px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+        .popup-desc {
+            color: #cbd5e6;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+        .popup-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .popup-stat {
+            background: rgba(0,168,255,0.05);
+            border: 1px solid rgba(0,168,255,0.1);
+            padding: 12px 16px;
+            text-align: center;
+        }
+        .popup-stat span {
+            display: block;
+            font-size: 10px;
+            color: #6c7a91;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+        .popup-stat strong {
+            font-size: 16px;
+            color: #fff;
+            font-weight: 600;
+        }
+        .popup-tech {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .popup-tech span {
+            background: rgba(0,168,255,0.1);
+            padding: 6px 16px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #00a8ff;
+            border: 1px solid rgba(0,168,255,0.1);
+            letter-spacing: 0.5px;
+        }
+        .popup-actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .popup-btn {
+            padding: 12px 28px;
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #cbd5e6;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+        }
+        .popup-btn:hover {
+            border-color: #00a8ff;
+            color: #00a8ff;
+            gap: 14px;
+        }
+        .popup-btn.primary {
+            background: linear-gradient(135deg, #00a8ff, #8b5cf6);
+            border-color: transparent;
+            color: white;
+        }
+        .popup-btn.primary:hover {
+            box-shadow: 0 6px 20px rgba(0,168,255,0.3);
+            transform: translateY(-2px);
+            gap: 14px;
+        }
+
+        @media (max-width: 900px) {
+            .container { padding: 0 24px; }
+            .hero-content h1 { font-size: 36px; }
+            .about-grid, .portfolio-grid, .offer-grid, .footer-grid, .tariffs-grid { grid-template-columns: 1fr; }
+            .nav { display: none; }
+            .logo-img { height: 45px; }
+            .logo-text { font-size: 20px; }
+            .offer-content h2 { font-size: 32px; }
+            .hero-about { padding: 20px 0; min-height: auto; }
+            .footer-grid { gap: 30px; text-align: center; }
+            .footer-social { justify-content: center; }
+            .footer-col ul li a { justify-content: center; }
+            .tariff-card.featured { transform: scale(1); }
+            .tariff-card.featured:hover { transform: scale(1) translateY(-6px); }
+            .popup { margin: 16px; max-height: 95vh; }
+            .popup-gallery { min-height: 180px; max-height: 320px; }
+            .popup-body { padding: 24px; }
+            .popup-stats { grid-template-columns: repeat(2, 1fr); }
+            .popup-actions { flex-direction: column; }
+            .popup-btn { justify-content: center; }
+            .popup-gallery-img-label { font-size: 10px; padding: 4px 14px; bottom: 12px; white-space: normal; max-width: 90%; text-align: center; }
+            .popup-gallery-img-label::before { content: ''; }
+            .process-timeline { flex-direction: column; gap: 20px; }
+            .step-image { min-height: 140px; max-height: 220px; }
+        }
+        @media (max-width: 480px) {
+            .popup-gallery { min-height: 150px; max-height: 240px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="image-bg"></div>
+<div class="dark-overlay"></div>
+<div class="gradient-overlay"></div>
+<div class="grid-overlay"></div>
+
+<header class="header">
+    <div class="container">
+        <div class="header-inner">
+            <div class="logo-wrapper" id="adminTrigger">
+                <img src="logo.png" alt="Prime Code Logo" class="logo-img">
+                <div class="logo-text">Prime Code</div>
+            </div>
+            <div class="nav">
+                <a href="#about">О себе</a>
+                <a href="#process">Как работаю</a>
+                <a href="#portfolio">Портфолио</a>
+                <a href="#tariffs">Услуги</a>
+                <a href="#faq">Вопросы</a>
+                <a href="#contact">Контакты</a>
+                <a href="https://t.me/primecode_dev" target="_blank" class="btn-telegram">
+                    <i class="fab fa-telegram"></i> Написать
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+    <section id="about" class="hero-about">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="animate">Инженер <span class="hero-gradient">цифровых продуктов</span></h1>
+                <p class="animate" style="animation-delay: 0.1s;">Разрабатываю сайты, которые выглядят дорого, загружаются за секунды и приносят результат.</p>
+            </div>
+            <div class="about-grid">
+                <div class="about-text">
+                    <div class="lead">Мой путь в веб-разработке — это страсть к технологиям и стремление к идеалу.</div>
+                    <p>Я начал свой путь в 2020 году как инженер, объединённый желанием создавать сайты, которые решают реальные бизнес-задачи. За годы работы я вырос в эксперта полного цикла, где каждый проект — это продуманная архитектура, чистый код и премиальный дизайн.</p>
+                    <p>Моя философия: технология должна быть незаметной, но её отсутствие — очевидным. Prime Code — это не просто разработка, это партнёрство, в котором я несу ответственность за результат.</p>
+                    <div class="about-stats">
+                        <div class="about-stat"><div class="about-stat-number">15+</div><div class="about-stat-desc">проектов</div></div>
+                        <div class="about-stat"><div class="about-stat-number">100%</div><div class="about-stat-desc">довольных клиентов</div></div>
+                        <div class="about-stat"><div class="about-stat-number">24/7</div><div class="about-stat-desc">на связи</div></div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="glow-image">
+                        <img src="notebook.jpg" alt="Рабочий процесс Prime Code">
+                    </div>
+                    <div class="quote-text">«Код — это поэзия. Я пишу элегантные решения.»</div>
+                    <p style="margin-top: 16px;"><i class="fas fa-map-marker-alt"></i> Работаю по всему миру</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="process-section scroll-fade" id="process">
+        <div class="container">
+            <div style="text-align:center; margin-bottom: 40px;">
+                <div class="tag">Процесс</div>
+                <h2 style="font-size:48px; font-weight:500;">Как я <span style="color:#8b5cf6">работаю</span></h2>
+                <p style="color:#cbd5e6; margin-top:16px;">Прозрачный процесс без скрытых этапов</p>
+            </div>
+            <div class="steps-counter">
+                <div class="steps-counter-line"><div class="steps-counter-progress" id="stepsProgress"></div></div>
+                <div class="steps-counter-dots">
+                    <div class="step-dot active" data-step="1"><span class="dot-num">01</span><span class="dot-label">Анализ</span></div>
+                    <div class="step-dot" data-step="2"><span class="dot-num">02</span><span class="dot-label">Дизайн</span></div>
+                    <div class="step-dot" data-step="3"><span class="dot-num">03</span><span class="dot-label">Разработка</span></div>
+                    <div class="step-dot" data-step="4"><span class="dot-num">04</span><span class="dot-label">Запуск</span></div>
+                </div>
+            </div>
+            <div class="process-timeline">
+                <div class="process-step active" data-step="1">
+                    <div class="step-number-bg">01</div>
+                    <div class="step-image"><img src="images/step1-analysis.jpg" alt="Анализ"><div class="step-image-overlay"></div></div>
+                    <div class="step-content"><div class="step-title">Анализ и брифинг</div><div class="step-desc">Фиксирую задачи, цели, прототип</div><div class="step-tags"><span>ТЗ</span><span>Прототип</span><span>Смета</span></div></div>
+                </div>
+                <div class="process-step" data-step="2">
+                    <div class="step-number-bg">02</div>
+                    <div class="step-image"><img src="images/step2-design.jpg" alt="Дизайн"><div class="step-image-overlay"></div></div>
+                    <div class="step-content"><div class="step-title">Дизайн и верстка</div><div class="step-desc">Создаю интерфейс, адаптирую</div><div class="step-tags"><span>UI/UX</span><span>Адаптив</span><span>Анимация</span></div></div>
+                </div>
+                <div class="process-step" data-step="3">
+                    <div class="step-number-bg">03</div>
+                    <div class="step-image"><img src="images/step3-launch.jpg" alt="Разработка"><div class="step-image-overlay"></div></div>
+                    <div class="step-content"><div class="step-title">Разработка и сборка</div><div class="step-desc">Пишу код, интегрирую API</div><div class="step-tags"><span>Код</span><span>API</span><span>Тесты</span></div></div>
+                </div>
+                <div class="process-step" data-step="4">
+                    <div class="step-number-bg">04</div>
+                    <div class="step-image"><img src="images/step4-launch.jpg" alt="Запуск" onerror="this.src='https://placehold.co/600x400/1a1a2d/8b5cf6?text=Запуск+и+поддержка'"><div class="step-image-overlay"></div></div>
+                    <div class="step-content"><div class="step-title">Запуск и поддержка</div><div class="step-desc">Размещаю на хостинге, обучаю</div><div class="step-tags"><span>Деплой</span><span>Обучение</span><span>Гарантия</span></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="portfolio-section scroll-fade">
+        <div class="container">
+            <div class="portfolio-header">
+                <div class="tag">Портфолио</div>
+                <h2>Реализованные <span class="hero-gradient">проекты</span></h2>
+                <p class="subtitle">Нажмите на карточку, чтобы увидеть детали</p>
+            </div>
+            <div class="portfolio-grid">
+                <div class="portfolio-item" data-project="1">
+                    <div class="portfolio-img">
+                        <img src="images/tecnopro-desktop.jpg" alt="TecnoPro" onerror="this.src='https://placehold.co/600x400/0f172a/00a8ff?text=TecnoPro'">
+                        <div class="portfolio-overlay">
+                            <span class="portfolio-link-icon"><i class="fas fa-arrow-right"></i></span>
+                            <span class="portfolio-hover-text">Смотреть проект</span>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h3 class="portfolio-title">TecnoPro — Сервисный центр</h3>
+                        <p class="portfolio-desc">Полноценный сайт для ремонта телефонов и игровых приставок. Онлайн-запись, админ-панель, Telegram-уведомления.</p>
+                        <div class="portfolio-tech">
+                            <span>PHP</span>
+                            <span>JavaScript</span>
+                            <span>Telegram API</span>
+                            <span>CSS3</span>
+                        </div>
+                        <div class="portfolio-links">
+                            <a href="#" class="portfolio-link" target="_blank">🔗 Демо →</a>
+                            <a href="#" class="portfolio-link" target="_blank">📁 Код →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item" data-project="2">
+                    <div class="portfolio-img">
+                        <img src="images/loft-desktop.jpg" alt="LOFT" onerror="this.src='https://placehold.co/600x400/0f172a/8b5cf6?text=LOFT'">
+                        <div class="portfolio-overlay">
+                            <span class="portfolio-link-icon"><i class="fas fa-arrow-right"></i></span>
+                            <span class="portfolio-hover-text">Смотреть проект</span>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h3 class="portfolio-title">LOFT — Премиальная мебель</h3>
+                        <p class="portfolio-desc">Интернет-магазин мебели с корзиной, формой заказа, отправкой в Telegram и видео-фоном на главном экране.</p>
+                        <div class="portfolio-tech">
+                            <span>HTML5</span>
+                            <span>CSS3</span>
+                            <span>JavaScript</span>
+                            <span>Telegram API</span>
+                        </div>
+                        <div class="portfolio-links">
+                            <a href="loft/index.html" class="portfolio-link" target="_blank">🔗 Посмотреть демо →</a>
+                            <a href="#" class="portfolio-link" target="_blank">📁 Код →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item" data-project="3">
+                    <div class="portfolio-img">
+                        <img src="images/eduplatform-desktop.jpg" alt="EduPlatform" onerror="this.src='https://placehold.co/600x400/0f172a/3b82f6?text=Образовательная+платформа'">
+                        <div class="portfolio-overlay">
+                            <span class="portfolio-link-icon"><i class="fas fa-arrow-right"></i></span>
+                            <span class="portfolio-hover-text">Смотреть проект</span>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h3 class="portfolio-title">EduPlatform — Образовательная платформа</h3>
+                        <p class="portfolio-desc">Платформа с курсами, прогрессом, видео-уроками, сертификатами, личными кабинетами ученика и учителя.</p>
+                        <div class="portfolio-tech">
+                            <span>HTML5</span>
+                            <span>CSS3</span>
+                            <span>JavaScript</span>
+                            <span>LocalStorage</span>
+                        </div>
+                        <div class="portfolio-links">
+                            <a href="eduplatform/index.html" class="portfolio-link" target="_blank">🔗 Посмотреть демо →</a>
+                            <a href="#" class="portfolio-link" target="_blank">📁 Код →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup" id="popupContent">
+            <button class="popup-close" id="popupClose"><i class="fas fa-times"></i></button>
+            <div class="popup-gallery">
+                <div class="popup-gallery-track" id="popupGalleryTrack"></div>
+                <button class="popup-gallery-btn prev" id="galleryPrev"><i class="fas fa-chevron-left"></i></button>
+                <button class="popup-gallery-btn next" id="galleryNext"><i class="fas fa-chevron-right"></i></button>
+                <div class="popup-gallery-dots" id="galleryDots"></div>
+                <div class="popup-gallery-img-label" id="galleryLabel">Главный экран</div>
+            </div>
+            <div class="popup-body">
+                <div class="popup-content">
+                    <h2 class="popup-title" id="popupTitle">Название проекта</h2>
+                    <p class="popup-desc" id="popupDesc">Описание проекта</p>
+                    <div class="popup-stats">
+                        <div class="popup-stat"><span>Срок</span><strong id="popupTime">—</strong></div>
+                        <div class="popup-stat"><span>Стек</span><strong id="popupStack">—</strong></div>
+                        <div class="popup-stat"><span>Задачи</span><strong id="popupTasks">—</strong></div>
+                        <div class="popup-stat"><span>Результат</span><strong id="popupResult">—</strong></div>
+                    </div>
+                    <div class="popup-tech" id="popupTech"></div>
+                </div>
+                <div class="popup-actions">
+                    <a href="#" class="popup-btn primary" id="popupDemoLink" target="_blank"><i class="fas fa-eye"></i> Посмотреть демо →</a>
+                    <a href="#" class="popup-btn" id="popupCodeLink" target="_blank"><i class="fas fa-code"></i> Исходный код →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="tariffs" class="tariffs-section scroll-fade">
+        <div class="container">
+            <div class="tariffs-header">
+                <div class="tag">Тарифы</div>
+                <h2>Выберите <span class="hero-gradient">решение</span></h2>
+                <p class="subtitle">Честные цены. Прозрачные условия. Без скрытых платежей.</p>
+            </div>
+            <div class="tariffs-grid">
+                <div class="tariff-card">
+                    <div class="tariff-badge">Стартовый</div>
+                    <div class="tariff-name">Старт</div>
+                    <div class="tariff-price">10 000 ₽</div>
+                    <div class="tariff-desc">Идеальный выбор для запуска бизнеса в интернете.</div>
+                    <ul class="tariff-features">
+                        <li><i class="fas fa-check-circle"></i> Лендинг / сайт-визитка</li>
+                        <li><i class="fas fa-check-circle"></i> Адаптив под любые устройства</li>
+                        <li><i class="fas fa-check-circle"></i> Форма заявки в Telegram</li>
+                        <li><i class="fas fa-check-circle"></i> Настройка за 2–3 дня</li>
+                    </ul>
+                    <button class="tariff-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Выбрать →</button>
+                </div>
+
+                <div class="tariff-card">
+                    <div class="tariff-badge">Срочный</div>
+                    <div class="tariff-name">Экспресс</div>
+                    <div class="tariff-price">20 000 ₽</div>
+                    <div class="tariff-desc">Для тех, кто не готов ждать. Сайт за 24 часа.</div>
+                    <ul class="tariff-features">
+                        <li><i class="fas fa-check-circle"></i> Сайт за 24 часа</li>
+                        <li><i class="fas fa-check-circle"></i> Гарантия 12 месяцев</li>
+                        <li><i class="fas fa-check-circle"></i> Правки без ограничений</li>
+                        <li><i class="fas fa-check-circle"></i> Приоритетная поддержка</li>
+                    </ul>
+                    <button class="tariff-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Выбрать →</button>
+                </div>
+
+                <div class="tariff-card featured">
+                    <div class="tariff-badge">Для бизнеса</div>
+                    <div class="tariff-name">Бизнес</div>
+                    <div class="tariff-price">15 000 ₽</div>
+                    <div class="tariff-desc">Интернет-магазин или каталог с админ-панелью.</div>
+                    <ul class="tariff-features">
+                        <li><i class="fas fa-check-circle"></i> Интернет-магазин / каталог</li>
+                        <li><i class="fas fa-check-circle"></i> Админ-панель</li>
+                        <li><i class="fas fa-check-circle"></i> SEO-оптимизация</li>
+                        <li><i class="fas fa-check-circle"></i> Фильтры и поиск</li>
+                    </ul>
+                    <button class="tariff-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Выбрать →</button>
+                </div>
+
+                <div class="tariff-card">
+                    <div class="tariff-badge">Премиум</div>
+                    <div class="tariff-name">Премиум</div>
+                    <div class="tariff-price">50 000 ₽</div>
+                    <div class="tariff-desc">Максимальный уровень. Уникальный дизайн и архитектура.</div>
+                    <ul class="tariff-features">
+                        <li><i class="fas fa-check-circle"></i> Уникальный дизайн с нуля</li>
+                        <li><i class="fas fa-check-circle"></i> Сложная архитектура / CRM</li>
+                        <li><i class="fas fa-check-circle"></i> Высокая нагрузка</li>
+                        <li><i class="fas fa-check-circle"></i> Поддержка 24/7</li>
+                    </ul>
+                    <button class="tariff-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Выбрать →</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="faq-section scroll-fade">
+        <div class="container">
+            <div class="faq-header">
+                <div class="tag">Часто задаваемые вопросы</div>
+                <h2>Ответы на <span class="hero-gradient">важные вопросы</span></h2>
+                <p class="subtitle">Всё, что вы хотели знать, но стеснялись спросить</p>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question"><span>Сколько стоит разработка сайта?</span><i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer">Стоимость зависит от сложности и объёма работы. Базовый лендинг — от 10 000 ₽, интернет-магазин — от 15 000 ₽, премиум-решения с уникальным дизайном — от 50 000 ₽. Я всегда фиксирую бюджет в договоре — никаких сюрпризов.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question"><span>Как долго делается сайт?</span><i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer">Всё зависит от тарифа. Стандартный сайт — 2–3 дня. Срочный проект — за 24 часа. Сложные премиум-решения — до 2 недель. Точный срок обсуждаем индивидуально.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question"><span>Нужно ли платить за хостинг и домен?</span><i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer">Нет. Я помогаю выбрать и настроить хостинг и домен, но оплата за них — отдельно. Хостинг стоит от 200 ₽/месяц, домен — от 300 ₽/год. Я помогу с выбором и настройкой.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question"><span>Что делать, если сайт сломается?</span><i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer">У меня 12 месяцев гарантии. Если что-то пошло не так — я чиню бесплатно. После гарантийного периода — поддерживаю за отдельную плату (2 000 ₽/мес) или по договорённости.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question"><span>Могу ли я сам редактировать сайт?</span><i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer">Да. Все сайты делаю с удобной админ-панелью, где вы можете менять тексты, фото и контакты. Я покажу, как это делать, и запишу видео-инструкцию.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-offer-2026 scroll-fade">
+        <div class="container">
+            <div class="offer-grid">
+                <div class="offer-content">
+                    <div class="offer-badge">Свяжитесь со мной</div>
+                    <h2>Обсудим <span class="hero-gradient">ваш проект</span>?</h2>
+                    <p class="offer-lead">Напишите, что вам нужно, выберите удобный способ связи.</p>
+                    <div class="offer-features">
+                        <div class="offer-feature"><i class="fas fa-shield-alt"></i><div><h4>Без предоплаты</h4><p>Оплата после приёмки</p></div></div>
+                        <div class="offer-feature"><i class="fas fa-chart-line"></i><div><h4>Цена не меняется</h4><p>Фиксированный бюджет</p></div></div>
+                        <div class="offer-feature"><i class="fas fa-clock"></i><div><h4>Гарантия 12 месяцев</h4><p>Бесплатные правки</p></div></div>
+                    </div>
+                    <div class="offer-contacts">
+                        <a href="https://t.me/primecode_dev" target="_blank" class="contact-link">
+                            <i class="fab fa-telegram"></i> @primecode_dev
+                        </a>
+                        <a href="https://vk.com/primecode_dev" target="_blank" class="contact-link">
+                            <i class="fab fa-vk"></i> VK сообщество
+                        </a>
+                    </div>
+                </div>
+                <div class="offer-form">
+                    <h3>Оставьте заявку <span style="color:#00a8ff">→</span></h3>
+                    <form id="orderForm">
+                        <input type="text" class="honeypot" id="honeypot" name="honeypot" tabindex="-1" autocomplete="off">
+                        <input type="hidden" id="formTimer" value="">
+                        <div class="form-group"><input type="text" id="formName" placeholder="Ваше имя *" required></div>
+                        <div class="form-group"><textarea id="formMessage" rows="3" placeholder="Расскажите о проекте *" required></textarea></div>
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 12px; font-size: 13px; color: #cbd5e6; letter-spacing: 0.5px;">Удобный способ связи</label>
+                            <div class="messenger-selector">
+                                <button type="button" class="messenger-option" data-messenger="Telegram"><i class="fab fa-telegram"></i> Telegram</button>
+                                <button type="button" class="messenger-option" data-messenger="WhatsApp"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+                                <button type="button" class="messenger-option" data-messenger="VK"><i class="fab fa-vk"></i> VK</button>
+                            </div>
+                            <input type="hidden" id="formMessenger" value="">
+                        </div>
+                        <div class="form-group"><input type="text" id="formContact" placeholder="Ваш логин / номер в мессенджере *" required></div>
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 12px; font-size: 13px; color: #cbd5e6; letter-spacing: 0.5px;">Интересующий тариф</label>
+                            <div class="tariff-selector">
+                                <button type="button" class="tariff-option" data-tariff="Старт">Старт</button>
+                                <button type="button" class="tariff-option" data-tariff="Экспресс">Экспресс</button>
+                                <button type="button" class="tariff-option" data-tariff="Бизнес">Бизнес</button>
+                                <button type="button" class="tariff-option" data-tariff="Премиум">Премиум</button>
+                            </div>
+                            <input type="hidden" id="formTariff" value="">
+                        </div>
+                        <button type="submit" class="offer-submit">Отправить →</button>
+                        <p class="offer-hint">Отвечу в течение 1 часа</p>
+                        <div id="formStatus" style="margin-top: 16px; font-size: 13px; text-align: center;"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="footer-logo">PRIME<span>CODE</span></div>
+                <p class="footer-desc">Инженер цифровых продуктов. Сайты, которые приносят прибыль.</p>
+                <div class="footer-social">
+                    <a href="https://t.me/primecode_dev" target="_blank" title="Telegram"><i class="fab fa-telegram"></i></a>
+                    <a href="https://vk.com/primecode_dev" target="_blank" title="VK"><i class="fab fa-vk"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Навигация</h4>
+                <ul>
+                    <li><a href="#about">О себе</a></li>
+                    <li><a href="#process">Как работаю</a></li>
+                    <li><a href="#portfolio">Портфолио</a></li>
+                    <li><a href="#tariffs">Услуги</a></li>
+                    <li><a href="#faq">Вопросы</a></li>
+                    <li><a href="#contact">Контакты</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Контакты</h4>
+                <ul>
+                    <li><a href="https://t.me/primecode_dev" target="_blank"><i class="fab fa-telegram"></i> @primecode_dev</a></li>
+                    <li><a href="https://vk.com/primecode_dev" target="_blank"><i class="fab fa-vk"></i> VK сообщество</a></li>
+                    <li><i class="fas fa-map-marker-alt"></i> Волжский / Online</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Работаем</h4>
+                <ul>
+                    <li><i class="fas fa-calendar-check"></i> Пн–Вс: 10:00 – 21:00</li>
+                    <li><i class="fas fa-clock"></i> Онлайн-заявки 24/7</li>
+                    <li><i class="fas fa-shield-alt"></i> Без предоплаты</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Prime Code — разработка, которой доверяют. Все права защищены.</p>
+            <p class="footer-tagline">Сайты, которые работают на результат</p>
+        </div>
+    </div>
+</footer>
+
+<!-- ===== ЧАТ-ВИДЖЕТ ===== -->
+<div class="chat-widget">
+    <button class="chat-button" id="chatButton">
+        <i class="fas fa-comment-dots"></i>
+        <span class="notification-dot" id="chatNotification"></span>
+    </button>
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <div class="chat-title">
+                <div class="avatar"><i class="fas fa-robot"></i></div>
+                <div class="info">
+                    <h4>Prime Code</h4>
+                    <div class="status"><span class="dot"></span> Онлайн</div>
+                </div>
+            </div>
+            <button class="chat-close" id="chatClose"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="quick-replies" id="quickReplies">
+            <button data-quick="💰 Сколько стоит сайт?">💰 Сколько стоит?</button>
+            <button data-quick="🖥 Покажи проекты">🖥 Проекты</button>
+            <button data-quick="📞 Хочу заказать сайт">📞 Заказать</button>
+            <button data-quick="❓ Частые вопросы">❓ FAQ</button>
+            <button data-quick="📖 История компании">📖 История</button>
+        </div>
+        <div class="chat-input-area">
+            <div class="chat-input-group">
+                <textarea id="chatMessage" rows="1" placeholder="Напишите сообщение..."></textarea>
+                <button class="chat-send" id="chatSendBtn"><i class="fas fa-paper-plane"></i></button>
+            </div>
+            <div class="chat-status" id="chatStatus"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ===== ДАННЫЕ ДЛЯ ПОПАПОВ =====
+    const projectsData = {
+        1: {
+            title: 'TecnoPro — Сервисный центр',
+            desc: 'Полноценный сайт для сервисного центра по ремонту телефонов и игровых приставок. Включает админ-панель для управления заявками, Telegram-уведомления о новых заказах, онлайн-запись и модерацию отзывов.',
+            images: [
+                { src: 'images/tecnopro-desktop.jpg', label: 'Главный экран' },
+                { src: 'images/tecnopro-mobile.jpg', label: 'Мобильная версия' },
+                { src: 'images/tecnopro-admin-requests.jpg', label: 'Админ-панель: заявки' },
+                { src: 'images/tecnopro-admin-reviews.jpg', label: 'Админ-панель: отзывы' },
+                { src: 'images/tecnopro-form.jpg', label: 'Форма заявки' },
+                { src: 'images/tecnopro-extra1.jpg', label: 'Дополнительный скриншот 1' },
+                { src: 'images/tecnopro-extra2.jpg', label: 'Дополнительный скриншот 2' }
+            ],
+            tech: ['PHP', 'JavaScript', 'Telegram API', 'CSS3'],
+            time: '3 дня',
+            stack: 'PHP / JS / Telegram API',
+            tasks: '5',
+            result: '+30% заявок',
+            demo: '#',
+            code: '#'
+        },
+        2: {
+            title: 'LOFT — Премиальная мебель',
+            desc: 'Интернет-магазин мебели с корзиной, формой заказа, отправкой в Telegram и видео-фоном на главном экране. Полноценный каталог с модальными окнами и 3D-эффектами.',
+            images: [
+                { src: 'images/loft-desktop.jpg', label: 'Главный экран с видео' },
+                { src: 'images/loft-catalog.jpg', label: 'Каталог товаров' },
+                { src: 'images/loft-modal.jpg', label: 'Модальное окно товара' },
+                { src: 'images/loft-cart.jpg', label: 'Корзина и форма заказа' }
+            ],
+            tech: ['HTML5', 'CSS3', 'JavaScript', 'Telegram API'],
+            time: '5 дней',
+            stack: 'HTML / CSS / JS / Telegram API',
+            tasks: '8',
+            result: '+45% вовлечённости',
+            demo: 'loft/index.html',
+            code: '#'
+        },
+        3: {
+            title: 'EduPlatform — Образовательная платформа',
+            desc: 'Платформа с курсами, прогрессом, видео-уроками, сертификатами, личными кабинетами ученика и учителя. Ролевая модель, LocalStorage, фильтрация и поиск.',
+            images: [
+                { src: 'images/eduplatform-desktop.jpg', label: 'Главный экран' },
+                { src: 'images/eduplatform-courses.jpg', label: 'Список курсов' },
+                { src: 'images/eduplatform-modal.jpg', label: 'Модалка обучения (уроки)' },
+                { src: 'images/eduplatform-registration.jpg', label: 'Регистрация / Вход' },
+                { src: 'images/eduplatform-certificate.jpg', label: 'Сертификат об окончании' }
+            ],
+            tech: ['HTML5', 'CSS3', 'JavaScript', 'LocalStorage'],
+            time: '4 дня',
+            stack: 'HTML / CSS / JS / LocalStorage',
+            tasks: '10',
+            result: '100% функционала',
+            demo: 'eduplatform/index.html',
+            code: '#'
+        }
+    };
+
+    // ===== ПОПАП =====
+    const popupOverlay = document.getElementById('popupOverlay');
+    const popupClose = document.getElementById('popupClose');
+    const popupTitle = document.getElementById('popupTitle');
+    const popupDesc = document.getElementById('popupDesc');
+    const popupTech = document.getElementById('popupTech');
+    const popupDemoLink = document.getElementById('popupDemoLink');
+    const popupCodeLink = document.getElementById('popupCodeLink');
+    const popupTime = document.getElementById('popupTime');
+    const popupStack = document.getElementById('popupStack');
+    const popupTasks = document.getElementById('popupTasks');
+    const popupResult = document.getElementById('popupResult');
+    const galleryTrack = document.getElementById('popupGalleryTrack');
+    const galleryDots = document.getElementById('galleryDots');
+    const galleryPrev = document.getElementById('galleryPrev');
+    const galleryNext = document.getElementById('galleryNext');
+    const galleryLabel = document.getElementById('galleryLabel');
+    let currentSlide = 0;
+    let currentImages = [];
+
+    function openPopup(projectId) {
+        const data = projectsData[projectId];
+        if (!data) return;
+        currentImages = data.images;
+        currentSlide = 0;
+        popupTitle.textContent = data.title;
+        popupDesc.textContent = data.desc;
+        popupTech.innerHTML = data.tech.map(t => `<span>${t}</span>`).join('');
+        popupDemoLink.href = data.demo;
+        popupCodeLink.href = data.code;
+        popupTime.textContent = data.time;
+        popupStack.textContent = data.stack;
+        popupTasks.textContent = data.tasks;
+        popupResult.textContent = data.result;
+
+        galleryTrack.innerHTML = data.images.map(img =>
+            `<img src="${img.src}" alt="${img.label}" class="popup-gallery-img">`
+        ).join('');
+        galleryDots.innerHTML = data.images.map((_, i) =>
+            `<span class="${i === 0 ? 'active' : ''}" data-index="${i}"></span>`
+        ).join('');
+        galleryTrack.style.transform = 'translateX(0)';
+        galleryLabel.textContent = data.images[0].label || 'Главный экран';
+        updateGalleryDots();
+        popupOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closePopup() {
+        popupOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    function updateGallerySlide(index) {
+        const images = galleryTrack.querySelectorAll('.popup-gallery-img');
+        if (index < 0) index = images.length - 1;
+        if (index >= images.length) index = 0;
+        currentSlide = index;
+        galleryTrack.style.transform = `translateX(-${index * 100}%)`;
+        galleryLabel.textContent = currentImages[index]?.label || 'Скриншот';
+        updateGalleryDots();
+    }
+
+    function updateGalleryDots() {
+        const dots = galleryDots.querySelectorAll('span');
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === currentSlide);
+        });
+    }
+
+    document.querySelectorAll('.portfolio-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            if (e.target.closest('.portfolio-link')) return;
+            const projectId = this.dataset.project;
+            openPopup(projectId);
+        });
+    });
+
+    popupClose.addEventListener('click', closePopup);
+    popupOverlay.addEventListener('click', function(e) {
+        if (e.target === this) closePopup();
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closePopup();
+    });
+
+    galleryPrev.addEventListener('click', (e) => {
+        e.stopPropagation();
+        updateGallerySlide(currentSlide - 1);
+    });
+    galleryNext.addEventListener('click', (e) => {
+        e.stopPropagation();
+        updateGallerySlide(currentSlide + 1);
+    });
+    galleryDots.addEventListener('click', (e) => {
+        const dot = e.target.closest('span');
+        if (!dot) return;
+        const index = parseInt(dot.dataset.index);
+        updateGallerySlide(index);
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (!popupOverlay.classList.contains('active')) return;
+        if (e.key === 'ArrowLeft') updateGallerySlide(currentSlide - 1);
+        if (e.key === 'ArrowRight') updateGallerySlide(currentSlide + 1);
+    });
+
+    // ===== ПРОГРЕСС ЭТАПОВ =====
+    (function() {
+        const steps = document.querySelectorAll('.process-step');
+        const dots = document.querySelectorAll('.step-dot');
+        const progress = document.getElementById('stepsProgress');
+        if (!steps.length || !dots.length || !progress) return;
+        let currentStep = 0;
+        let isAnimating = false;
+        function updateStep(index) {
+            if (isAnimating) return;
+            isAnimating = true;
+            steps.forEach((step, i) => step.classList.toggle('active', i === index));
+            dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+            progress.style.width = ((index + 1) / steps.length * 100) + '%';
+            currentStep = index;
+            setTimeout(() => { isAnimating = false; }, 400);
+        }
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => updateStep(index));
+        });
+        const processSection = document.getElementById('process');
+        if (processSection) {
+            let isScrolling = false;
+            window.addEventListener('scroll', () => {
+                if (isScrolling) return;
+                isScrolling = true;
+                requestAnimationFrame(() => {
+                    const rect = processSection.getBoundingClientRect();
+                    if (rect.top < window.innerHeight * 0.7 && rect.bottom > 100) {
+                        const scrollProgress = (window.scrollY - processSection.offsetTop + window.innerHeight * 0.3) / (processSection.offsetHeight);
+                        const stepIndex = Math.min(Math.floor(scrollProgress * steps.length), steps.length - 1);
+                        if (stepIndex !== currentStep && stepIndex >= 0) updateStep(stepIndex);
+                    }
+                    isScrolling = false;
+                });
+            });
+        }
+    })();
+
+    // ===== ФОРМА ЗАЯВКИ =====
+    document.addEventListener('DOMContentLoaded', function() {
+        const timerField = document.getElementById('formTimer');
+        if (timerField) timerField.value = Date.now();
+    });
+
+    const messengerOptions = document.querySelectorAll('.messenger-option');
+    const messengerHidden = document.getElementById('formMessenger');
+    messengerOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            messengerOptions.forEach(opt => opt.classList.remove('active'));
+            option.classList.add('active');
+            messengerHidden.value = option.dataset.messenger;
+        });
+    });
+
+    const tariffOptions = document.querySelectorAll('.tariff-option');
+    const tariffHidden = document.getElementById('formTariff');
+    tariffOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            tariffOptions.forEach(opt => opt.classList.remove('active'));
+            option.classList.add('active');
+            tariffHidden.value = option.dataset.tariff;
+        });
+    });
+
+    const mainForm = document.getElementById('orderForm');
+    const mainStatus = document.getElementById('formStatus');
+    const honeypot = document.getElementById('honeypot');
+
+    mainForm?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        if (honeypot && honeypot.value.trim() !== '') {
+            mainStatus.innerHTML = '❌ Обнаружена попытка автоматической отправки';
+            mainStatus.style.color = '#f97316';
+            return;
+        }
+
+        const name = document.getElementById('formName').value.trim();
+        const message = document.getElementById('formMessage').value.trim();
+        const messenger = messengerHidden.value;
+        const contact = document.getElementById('formContact').value.trim();
+        const tariff = tariffHidden.value;
+
+        if (!name || !message) {
+            mainStatus.innerHTML = '❌ Заполните имя и сообщение';
+            mainStatus.style.color = '#f97316';
+            return;
+        }
+        if (!messenger) {
+            mainStatus.innerHTML = '❌ Выберите способ связи';
+            mainStatus.style.color = '#f97316';
+            return;
+        }
+        if (!contact) {
+            mainStatus.innerHTML = '❌ Укажите контакт в мессенджере';
+            mainStatus.style.color = '#f97316';
+            return;
+        }
+        if (!tariff) {
+            mainStatus.innerHTML = '❌ Выберите тариф';
+            mainStatus.style.color = '#f97316';
+            return;
+        }
+
+        const BOT_TOKEN = '8794735574:AAF6aj00hGE2MUibkky3cjEhUkydMMiuwaU';
+        const CHAT_ID = '7909264119';
+        const text = `🔷 Prime Code заявка\n👤 Имя: ${name}\n💬 Сообщение: ${message}\n📱 Связаться через: ${messenger}\n📌 Контакт: ${contact}\n💰 Тариф: ${tariff}`;
+
+        try {
+            mainStatus.innerHTML = '⏳ Отправка...';
+            mainStatus.style.color = '#00a8ff';
+            const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: CHAT_ID, text })
+            });
+            const data = await res.json();
+
+            if (data.ok) {
+                mainStatus.innerHTML = '✅ Заявка отправлена! Я свяжусь с вами.';
+                mainStatus.style.color = '#10b981';
+                mainForm.reset();
+                tariffOptions.forEach(opt => opt.classList.remove('active'));
+                tariffHidden.value = '';
+                messengerOptions.forEach(opt => opt.classList.remove('active'));
+                messengerHidden.value = '';
+            } else {
+                throw new Error(data.description || 'Telegram API error');
+            }
+        } catch (err) {
+            console.error('Submit error:', err);
+            mainStatus.innerHTML = '❌ Ошибка. Напишите мне в Telegram: @primecode_dev';
+            mainStatus.style.color = '#f97316';
+        }
+    });
+
+    // ===== FAQ =====
+    document.querySelectorAll('.faq-question').forEach(question => {
+        question.addEventListener('click', function() {
+            const item = this.parentElement;
+            const isActive = item.classList.contains('active');
+            document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
+            if (!isActive) item.classList.add('active');
+        });
+    });
+
+    // ===== АНИМАЦИЯ ПРИ СКРОЛЛЕ =====
+    const scrollElements = document.querySelectorAll('.scroll-fade');
+    const elementInView = (el) => {
+        const rect = el.getBoundingClientRect();
+        return rect.top < window.innerHeight * 0.85 && rect.bottom > 50;
+    };
+    const handleScroll = () => {
+        scrollElements.forEach(el => {
+            if (elementInView(el)) el.classList.add('visible');
+        });
+    };
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll);
+    setTimeout(handleScroll, 300);
+
+    // ===== ЧАТ-ВИДЖЕТ С АВТООТВЕТАМИ =====
+    (function() {
+        const chatButton = document.getElementById('chatButton');
+        const chatWindow = document.getElementById('chatWindow');
+        const chatClose = document.getElementById('chatClose');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatMessage = document.getElementById('chatMessage');
+        const chatSendBtn = document.getElementById('chatSendBtn');
+        const chatStatus = document.getElementById('chatStatus');
+        const chatNotification = document.getElementById('chatNotification');
+        const quickReplies = document.getElementById('quickReplies');
+
+        const BOT_TOKEN = '8794735574:AAF6aj00hGE2MUibkky3cjEhUkydMMiuwaU';
+        const CHAT_ID = '7909264119';
+
+        let isOpen = false;
+        let isProcessing = false;
+
+        function getTime() {
+            return new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function addBotMessage(text) {
+            const div = document.createElement('div');
+            div.className = 'message-bot';
+            const time = getTime();
+            div.innerHTML = `
+                <div class="avatar"><i class="fas fa-robot"></i></div>
+                <div class="bubble">
+                    ${text}
+                    <span class="time">${time}</span>
+                </div>
+            `;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function addUserMessage(text) {
+            const div = document.createElement('div');
+            div.className = 'message-user';
+            const time = getTime();
+            div.innerHTML = `
+                <div class="bubble">
+                    ${escapeHtml(text)}
+                    <span class="time">${time}</span>
+                </div>
+            `;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[m]);
+        }
+
+        function toggleChat(e) {
+            if (e) e.stopPropagation();
+            isOpen = !isOpen;
+            chatWindow.classList.toggle('open', isOpen);
+            if (isOpen) {
+                if (chatNotification) chatNotification.style.display = 'none';
+                setTimeout(() => chatMessage.focus(), 400);
+            }
+        }
+
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+        }
+
+        async function sendMessage() {
+            const text = chatMessage.value.trim();
+            if (!text || isProcessing) return;
+
+            isProcessing = true;
+            addUserMessage(text);
+            chatMessage.value = '';
+            autoResize(chatMessage);
+            chatStatus.textContent = '⏳ Думаю...';
+            chatStatus.style.color = '#6C63FF';
+            chatSendBtn.disabled = true;
+
+            const autoReplies = [
+                { 
+                    keywords: ['сколько', 'цена', 'стоит', 'стоимость', 'прайс', 'тариф', 'цен', 'стоят'], 
+                    reply: '💰 Цены (фиксированные, без скрытых платежей):\n• Старт (лендинг) — 10 000 ₽\n• Бизнес (магазин/каталог) — 15 000 ₽\n• Экспресс (за 24 часа) — 20 000 ₽\n• Премиум (уникальный дизайн) — 50 000 ₽\n\nПодробнее в разделе "Услуги" на сайте.' 
+                },
+                { 
+                    keywords: ['срок', 'дней', 'дня', 'быстро', 'скоро', 'когда', 'время', 'за сколько', 'долго'], 
+                    reply: '⏱ Сроки разработки:\n• Лендинг — 2-3 дня\n• Экспресс-сайт — 24 часа\n• Бизнес-сайт (магазин) — 5-7 дней\n• Премиум-проект — до 14 дней\n\nТочный срок обсуждаем индивидуально.' 
+                },
+                { 
+                    keywords: ['проект', 'портфолио', 'пример', 'посмотреть', 'демо', 'работы', 'сделал', 'покажи', 'работу'], 
+                    reply: '🖥 Мои проекты в портфолио:\n• TecnoPro — сервисный центр (ремонт техники)\n• LOFT — премиальная мебель (интернет-магазин)\n• EduPlatform — образовательная платформа\n\nНажми на карточку проекта, чтобы увидеть детали и демо.' 
+                },
+                { 
+                    keywords: ['заказать', 'хочу', 'сделать', 'заявка', 'связь', 'контакт', 'написать', 'связаться'], 
+                    reply: '📞 Отлично! Я готов обсудить твой проект.\n\nСпособы связи:\n• Telegram: @primecode_dev\n• VK: vk.com/primecode_dev\n• Или заполни форму на сайте — я отвечу в течение 1 часа.' 
+                },
+                { 
+                    keywords: ['гарантия', 'правки', 'поддержка', 'бесплатно', 'чинить', 'сломается', 'гарантий'], 
+                    reply: '🔧 Гарантия 12 месяцев — все правки и исправления бесплатно.\nПосле гарантии — поддержка от 2 000 ₽/мес или разовые доработки по договорённости.' 
+                },
+                { 
+                    keywords: ['оплата', 'предоплата', 'деньги', 'нал', 'платить'], 
+                    reply: '💳 Оплата после полной приёмки работы. Без предоплаты.\nРаботаю по договору, фиксирую бюджет.' 
+                },
+                { 
+                    keywords: ['история', 'компания', 'путь', 'расскажи', 'о себе', 'как начал', 'почему', 'кто ты', 'откуда', 'биография'], 
+                    reply: `📖 Моя история — это путь от мечты до дела, которое я люблю.
+
+Всё началось совсем недавно — в 2024 году. Я тогда работал в найме и вдруг понял: «А почему сайты выглядят скучно и работают медленно? Почему бизнес теряет клиентов из-за плохого интернета?»
+
+Я решил, что хочу менять это. Не просто делать сайты, а создавать цифровые продукты, которые решают задачи, приносят деньги и радуют глаз.
+
+Так я и начал свой путь. Первые заказы были от друзей и знакомых — скромные проекты, но в каждый я вкладывал душу. Потому что для меня важен не просто код, а результат. Я хочу, чтобы мой клиент просыпался и видел, как его сайт работает на него.
+
+Сейчас в моём портфолио уже есть готовые работы. Их пока не миллион, но их можно посмотреть — 3 проекта, которыми я горжусь. Каждый из них — это шаг вперёд, и я продолжаю расти.
+
+Prime Code для меня — это не просто разработка. Это партнёрство, в котором я несу ответственность за твой успех. Я не сплю, пока сайт не работает идеально. Я горжусь каждым проектом и каждым клиентом, который сказал «спасибо».
+
+«Код — это поэзия. Я пишу элегантные решения.» — для меня это не просто слова, это философия.
+
+Моя философия проста: технология должна быть незаметной, но её отсутствие — очевидным. Я создаю сайты, которые выглядят дорого, загружаются за секунды и приносят реальные деньги.
+
+И знаешь, что самое крутое? Я делаю это с улыбкой. Потому что люблю своё дело и с каждым проектом становлюсь лучше.
+
+Хочешь стать частью этой истории? Напиши мне, и мы создадим что-то великое вместе. 🚀` 
+                }
+            ];
+
+            let botReply = null;
+            const lowerText = text.toLowerCase();
+            for (let rule of autoReplies) {
+                for (let keyword of rule.keywords) {
+                    if (lowerText.includes(keyword)) {
+                        botReply = rule.reply;
+                        break;
+                    }
+                }
+                if (botReply) break;
+            }
+
+            if (!botReply) {
+                botReply = '🤖 Спасибо за вопрос! Я передал его разработчику. Он ответит вам в ближайшее время.\n\nА пока можете:\n• Посмотреть портфолио\n• Узнать цены в разделе "Услуги"\n• Заполнить форму заявки внизу страницы';
+            }
+
+            setTimeout(() => {
+                addBotMessage(botReply);
+                chatStatus.textContent = '✅ Готово!';
+                chatStatus.style.color = '#34d399';
+                setTimeout(() => {
+                    chatStatus.textContent = '';
+                }, 3000);
+                isProcessing = false;
+                chatSendBtn.disabled = false;
+            }, 600 + Math.random() * 300);
+
+            try {
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: `💬 ЧАТ-ВИДЖЕТ САЙТА\n\n👤 Клиент спросил:\n${text}`
+                    })
+                });
+            } catch (err) {
+                console.warn('Telegram error:', err);
+            }
+        }
+
+        chatButton.addEventListener('click', toggleChat);
+        chatClose.addEventListener('click', toggleChat);
+        chatSendBtn.addEventListener('click', sendMessage);
+
+        chatMessage.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        chatMessage.addEventListener('input', function() {
+            autoResize(this);
+        });
+
+        quickReplies.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                chatMessage.value = this.dataset.quick;
+                sendMessage();
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            if (isOpen && !chatWindow.contains(e.target) && e.target !== chatButton) {
+                isOpen = false;
+                chatWindow.classList.remove('open');
+            }
+        });
+
+        addBotMessage('👋 Привет! Я — бот Prime Code.\nМогу рассказать о ценах, сроках и показать проекты.');
+    })();
+</script>
+</body>
+</html>
